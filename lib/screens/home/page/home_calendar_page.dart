@@ -1,8 +1,12 @@
+import 'package:account_book/common/colors.dart';
 import 'package:account_book/common/constant/intl.dart';
-import 'package:account_book/data/model/account.dart';
-import 'package:account_book/get/controller/account_controller.dart';
+import 'package:account_book/constants.dart';
+import 'package:account_book/data/model/trade.dart';
+import 'package:account_book/get/controller/trade_controller.dart';
 import 'package:account_book/get/controller/home_controller.dart';
 import 'package:account_book/screens/home/component/account_history_row.dart';
+import 'package:account_book/screens/home/page/calendar_builder.dart';
+import 'package:account_book/utilities/function/convert.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,165 +18,96 @@ class HomeCalendarPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          title: const Text("홈"),
+          title: Obx(() => Text('${HomeController.to.selectedDay.value.month}월')),
         ),
-        body: Column(
-          children: [buildTableCalendar(), const SizedBox(height: 10), buildTransactionHistory()],
-        ),
-      ),
-    );
-  }
-
-  Widget buildTableCalendar() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: TableCalendar(
-        firstDay: HomeController.to.firstDay,
-        lastDay: HomeController.to.lastDay,
-        focusedDay: HomeController.to.focusedDay.value,
-        calendarStyle: const CalendarStyle(
-          isTodayHighlighted: false,
-          // todayDecoration: BoxDecoration(
-          //   color: Colors.white
-          // ),
-          // todayTextStyle: TextStyle(
-          //   color: Colors.black
-          // )
-        ),
-        headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
-        calendarFormat: CalendarFormat.month,
-        onFormatChanged: HomeController.to.onFormatChanged,
-        selectedDayPredicate: HomeController.to.selectedDayPredicate,
-        onDaySelected: HomeController.to.onDaySelected,
-        eventLoader: HomeController.to.eventLoader,
-        calendarBuilders: buildCalendarBuilders(),
-      ),
-    );
-  }
-
-  CalendarBuilders<dynamic> buildCalendarBuilders() {
-    return CalendarBuilders(
-      // defaultBuilder: (context, day, focusedDay) {
-        // return Container(
-        //   height: 100,
-        //     child: Text('${day.day}'));
-      // },
-      markerBuilder: (context, day, events) {
-        if (events.isNotEmpty) {
-          bool isIncome = false;
-          bool isExpense = false;
-          for (Account account in events) {
-            if (account.type == 'income') {
-              isIncome = true;
-            } else if (account.type == 'expense') {
-              isExpense = true;
-            }
-          }
-
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        body: Obx(
+          () => Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              isIncome ? buildIncomeMarker() : Container(),
-              isExpense ? buildExpenseMarker() : Container(),
+              buildTotal(),
+              buildTableCalendar(),
+              buildTradeHistory(),
+              // , const SizedBox(height: 10), buildTransactionHistory()
             ],
-          );
-        }
-
-        // events.
-        return null;
-      },
-      // selectedBuilder: (context, day, focusedDay) {
-      //   return Container(
-      //     width: double.infinity,
-      //     height: double.infinity,
-      //     margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 5),
-      //     color: const Color.fromARGB(77, 144, 202, 249),
-      //     alignment: Alignment.center,
-      //     child: Text('${day.day}'),
-      //   );
-      // },
-      headerTitleBuilder: (context, day) {
-        return Text(yyyyMM.format(day), textAlign: TextAlign.center,);
-      },
-      dowBuilder: (context, day) {
-        if (day.weekday == DateTime.sunday) {
-          final text = DateFormat.E().format(day);
-
-          return Center(
-            child: Text(
-              text,
-              style: TextStyle(color: Colors.red),
-            ),
-          );
-        } else if (day.weekday == DateTime.saturday) {
-          final text = DateFormat.E().format(day);
-
-          return Center(
-            child: Text(
-              text,
-              style: TextStyle(color: Colors.blue),
-            ),
-          );
-        }
-      },
-    );
+          ),
+        ));
   }
 
-  Container buildIncomeMarker() {
+  Container buildTotal() {
     return Container(
-      height: 8,
-      width: 8,
-      decoration: ShapeDecoration(
-        shape: CircleBorder(
-          eccentricity: 1,
-          // side: BorderSide(style: BorderStyle.solid)
-        ),
-        color: Colors.red,
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        children: [
+          Flexible(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Text(
+                    '총 수입',
+                    style: TextStyle(color: CommonColors.incomeColor),
+                  ),
+                  AutoSizeText(
+                    numberFormat(TradeController.to.calculateTotalIncome()),
+                    maxLines: 1,
+                  )
+                ],
+              )),
+          Flexible(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const Text('총 지출', style: TextStyle(color: CommonColors.expenseColor)),
+                  AutoSizeText(numberFormat(TradeController.to.calculateTotalExpense()), maxLines: 1)
+                ],
+              ))
+        ],
       ),
-      // margin: EdgeInsets.all(10),
     );
   }
 
-  Container buildExpenseMarker() {
-    return Container(
-      height: 8,
-      width: 8,
-      decoration: ShapeDecoration(
-        shape: CircleBorder(
-          eccentricity: 1,
-          // side: BorderSide(style: BorderStyle.solid)
-        ),
-        color: Colors.blue,
-      ),
-      // margin: EdgeInsets.all(10),
+  /// 캘린더 영역
+  Widget buildTableCalendar() {
+    return TableCalendar(
+      firstDay: HomeController.to.firstDay,
+      lastDay: HomeController.to.lastDay,
+      focusedDay: HomeController.to.focusedDay.value,
+      rowHeight: 55,
+      headerVisible: false,
+      headerStyle: const HeaderStyle(
+          formatButtonVisible: false, titleCentered: true, headerPadding: EdgeInsets.symmetric(vertical: 5)),
+      calendarFormat: CalendarFormat.month,
+      onPageChanged: HomeController.to.onPageChanged,
+      onFormatChanged: HomeController.to.onFormatChanged,
+      selectedDayPredicate: HomeController.to.selectedDayPredicate,
+      onDaySelected: HomeController.to.onDaySelected,
+      eventLoader: HomeController.to.eventLoader,
+      calendarBuilders: buildCalendarBuilders(), // 캘린터 설정
     );
   }
 
-  Expanded buildTransactionHistory() {
+  // 당일 거래 내역
+  Expanded buildTradeHistory() {
     return Expanded(
       child: ListView(children: [
-        buildHeadRow(),
-        for (Account account
-            in AccountController.to.accountDateMap.value[dateFormat.format(HomeController.to.focusedDay.value)] ?? [])
-          AccountHistoryRow(
-            account: account,
-          )
+        // buildHeadRow(),
+        for (Trade trade
+            in TradeController.to.accountDateMap.value[dateFormat.format(HomeController.to.focusedDay.value)] ?? [])
+          TradeHistoryRow(trade: trade,)
       ]),
     );
   }
 
   Container buildHeadRow() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(width: 0.5,color: Colors.black45),
-          bottom: BorderSide(width: 0.5,color: Colors.black45)
-        )
-      ),
+          border: Border(
+              top: BorderSide(width: 0.5, color: Colors.black45),
+              bottom: BorderSide(width: 0.5, color: Colors.black45))),
       child: Row(
         children: const [
           Flexible(

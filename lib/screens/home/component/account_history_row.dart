@@ -1,3 +1,4 @@
+import 'package:account_book/common/colors.dart';
 import 'package:account_book/common/constant/intl.dart';
 import 'package:account_book/constants.dart';
 import 'package:account_book/route.dart';
@@ -5,12 +6,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../data/model/account.dart';
+import '../../../data/model/trade.dart';
 
 /// 가계부 내역 컴포넌트
-class AccountHistoryRow extends StatelessWidget {
-  const AccountHistoryRow({Key? key, required this.account}) : super(key: key);
-  final Account account;
+class TradeHistoryRow extends StatelessWidget {
+  const TradeHistoryRow({Key? key, required this.trade}) : super(key: key);
+  final Trade trade;
 
   // 날짜 카테고리 금액
   @override
@@ -27,7 +28,7 @@ class AccountHistoryRow extends StatelessWidget {
                 flex: 2,
                 fit: FlexFit.tight,
                 child: AutoSizeText(
-                  account.date!,
+                  trade.tradeDate!,
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: Get.textTheme.bodyMedium?.fontSize),
@@ -35,19 +36,19 @@ class AccountHistoryRow extends StatelessWidget {
             Flexible(
                 flex: 1,
                 fit: FlexFit.tight,
-                child: AutoSizeText(account.typeName!, maxLines: 1, textAlign: TextAlign.center)),
+                child: AutoSizeText(trade.typeName!, maxLines: 1, textAlign: TextAlign.center)),
             Flexible(
                 flex: 2,
                 fit: FlexFit.tight,
-                child: AutoSizeText(account.categoryName!, maxLines: 1, textAlign: TextAlign.center)),
+                child: AutoSizeText(trade.categoryName!, maxLines: 1, textAlign: TextAlign.left)),
             Flexible(
               flex: 2,
               fit: FlexFit.tight,
               child: AutoSizeText(
-                '${moneyFormat.format(account.amount)}원',
+                '${moneyFormat.format(trade.amount)}원',
                 maxLines: 1,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: account.type == 'income' ? Colors.red : Colors.blue),
+                textAlign: TextAlign.right,
+                style: TextStyle(color: trade.type == TradeType.income.name ? CommonColors.incomeColor : CommonColors.expenseColor),
               ),
             ),
           ],
@@ -58,6 +59,6 @@ class AccountHistoryRow extends StatelessWidget {
 
   void goToAccountDetailScreen() {
     log.d('goToAccountDetailScreen()');
-    Get.toNamed(AppRoute.accountDetail, arguments: account, preventDuplicates: true);
+    Get.toNamed(AppRoute.singleTradeRegisterScreen, arguments: trade, preventDuplicates: true);
   }
 }

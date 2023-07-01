@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:account_book/data/model/account.dart';
+import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/data/model/account_category.dart';
 import 'package:account_book/data/model/account_type.dart';
 import 'package:get/get.dart';

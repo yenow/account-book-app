@@ -2,8 +2,8 @@ import 'dart:collection';
 
 import 'package:account_book/common/constant/intl.dart';
 import 'package:account_book/constants.dart';
-import 'package:account_book/data/model/account.dart';
-import 'package:account_book/get/controller/account_controller.dart';
+import 'package:account_book/data/model/trade.dart';
+import 'package:account_book/get/controller/trade_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -32,10 +32,9 @@ class HomeController extends GetxController {
 
   void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     log.d('before day $selectedDay  $focusedDay');
-    if (!isSameDay(this.selectedDay.value, selectedDay)) {
-      this.selectedDay(selectedDay);
+    if (!isSameDay(this.focusedDay.value, focusedDay)) {
       this.focusedDay(focusedDay);
-      log.d('after day : ${this.selectedDay}  ${this.focusedDay}');
+      log.d('after day : ${this.focusedDay}');
     }
   }
 
@@ -43,11 +42,14 @@ class HomeController extends GetxController {
     this.calendarFormat(calendarFormat);
   }
 
-  List<Account> eventLoader(DateTime dateTime) {
-    // log.d('eventLoader(${dateFormat.format(dateTime)})');
+  void onPageChanged(day) {
+    log.i('onPageChanged : $day');
+    selectedDay(day);
+  }
 
+  List<Trade> eventLoader(DateTime dateTime) {
     String findDate = dateFormat.format(dateTime);
-    List<Account> accounts = AccountController.to.accountDateMap.value[findDate] ?? [];
+    List<Trade> accounts = TradeController.to.accountDateMap.value[findDate] ?? [];
 
     if (accounts.isNotEmpty) {
       return accounts;

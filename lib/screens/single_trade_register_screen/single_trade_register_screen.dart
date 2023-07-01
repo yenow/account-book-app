@@ -1,12 +1,12 @@
-import 'package:account_book/data/model/account.dart';
+import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/account_detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class AccountDetailScreen extends StatelessWidget {
-  const AccountDetailScreen({Key? key, required this.account}) : super(key: key);
-  final Account account;
+class SingleTradeRegisterScreen extends StatelessWidget {
+  const SingleTradeRegisterScreen({Key? key, required this.account}) : super(key: key);
+  final Trade account;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class AccountDetailScreen extends StatelessWidget {
               children: [
                 buildText(titleText: '날짜'),
                 Expanded(
-                  child: buildTextFormForDate(inputText: account.date ?? '', onSaved: (val) {}, validator: (val) {}),
+                  child: buildTextFormForDate(inputText: account.tradeDate ?? '', onSaved: (val) {}, validator: (val) {}),
                 )
               ],
             ),
