@@ -25,7 +25,7 @@ class Trade {
 }
 
 enum TradeType {
-  income('수입'), expense('지출');
+  income('수입'), expense('지출'), transfer('이체');  // asset('자산'), debt('빚')
 
   const TradeType(this.tradeTypeName);
   final String tradeTypeName;

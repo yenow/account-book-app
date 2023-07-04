@@ -1,4 +1,4 @@
-import 'package:account_book/common/colors.dart';
+import 'package:account_book/common/constant/colors.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/utilities/function/convert.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -16,10 +16,11 @@ CalendarBuilders<dynamic> buildCalendarBuilders() {
     selectedBuilder: selectedBuilder,
     todayBuilder: defaultBuilder,
     dowBuilder: dowBuilder,
-
+    // headerTitleBuilder: headerTitleBuilder,
   );
 }
 
+// 요일
 Widget? dowBuilder(context, day) {
   final text = DateFormat.E().format(day);
   Color color = Colors.black;
@@ -30,6 +31,7 @@ Widget? dowBuilder(context, day) {
   }
 
   return Container(
+    height: 0,
     alignment: Alignment.center,
     child: Text(
       text,
@@ -37,8 +39,8 @@ Widget? dowBuilder(context, day) {
     ),
   );
 }
-
 // 오늘 날짜
+
 Widget? todayBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
   return Center(
     child: Text(
@@ -46,8 +48,8 @@ Widget? todayBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
     ),
   );
 }
-
 // 기본 날짜
+
 Widget? defaultBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
   Color color = Colors.black;
   if (day.weekday == DateTime.sunday) {
@@ -65,8 +67,8 @@ Widget? defaultBuilder(BuildContext context, DateTime day, DateTime focusedDay) 
     ),
   );
 }
-
 // 해당 월 제외
+
 Widget? outsiderBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
   return Container(
     padding: dayEdgeInsets(),
@@ -74,8 +76,8 @@ Widget? outsiderBuilder(BuildContext context, DateTime day, DateTime focusedDay)
     child: Text('${day.day}', style: TextStyle(color: Colors.grey)),
   );
 }
-
 // 선택 날짜
+
 Widget? selectedBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
   return Container(
     width: double.infinity,
@@ -87,23 +89,28 @@ Widget? selectedBuilder(BuildContext context, DateTime day, DateTime focusedDay)
   );
 }
 
+///
 Widget? markerBuilder(BuildContext context, DateTime day, events) {
   if (events.isNotEmpty) {
     int? income = 0;
     int? expense = 0;
+    int? transfer = 0;
     for (Trade trade in events) {
       if (trade.type == TradeType.income.name) {
         income = income! + trade.amount!;
       } else if (trade.type == 'expense') {
         expense = expense! + trade.amount!;
+      } else if (trade.type == 'transfer') {
+        transfer = transfer! + trade.amount!;
       }
     }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        income != 0 ? buildIncomeMarker(income) : Container(),
-        expense != 0 ? buildExpenseMarker(expense) : Container(),
+        income == 0 ? Container() : buildTradeMarker(income, CommonColors.incomeColor, const EdgeInsets.fromLTRB(0, 20, 0, 0)),
+        expense == 0 ? Container() : buildTradeMarker(expense, CommonColors.expenseColor, const EdgeInsets.fromLTRB(0, 0, 0, 0)),
+        transfer == 0 ? Container() : buildTradeMarker(transfer, CommonColors.transferColor, const EdgeInsets.fromLTRB(0, 0, 0, 0)),
       ],
     );
   }
@@ -112,9 +119,9 @@ Widget? markerBuilder(BuildContext context, DateTime day, events) {
   return null;
 }
 
-Container buildIncomeMarker(int? amount) {
+Container buildTradeMarker(int? amount, Color? color, EdgeInsetsGeometry? padding) {
   return Container(
-    padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+    padding: padding,   //  const EdgeInsets.fromLTRB(0, 25, 0, 0),
     alignment: Alignment.centerRight,
     child: AutoSizeText(
       numberFormat(amount!),
@@ -122,23 +129,28 @@ Container buildIncomeMarker(int? amount) {
       overflow: TextOverflow.ellipsis,
       minFontSize: 6,
       maxFontSize: 10,
-      style: TextStyle(fontSize: Get.textTheme.bodySmall!.fontSize, color: CommonColors.incomeColor),
+      style: TextStyle(fontSize: Get.textTheme.bodySmall!.fontSize, color: color),
     ),
   );
 }
 
-Container buildExpenseMarker(int? amount) {
-  return Container(
-    alignment: Alignment.centerRight,
-    child: AutoSizeText(
-      numberFormat(amount!),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      minFontSize: 6,
-      maxFontSize: 10,
-      style: TextStyle(fontSize: Get.textTheme.bodySmall!.fontSize, color: CommonColors.expenseColor),
-    ),
-  );
-}
+// Container buildExpenseMarker(int? amount) {
+//   return Container(
+//     alignment: Alignment.centerRight,
+//     child: AutoSizeText(
+//       numberFormat(amount!),
+//       maxLines: 1,
+//       overflow: TextOverflow.ellipsis,
+//       minFontSize: 6,
+//       maxFontSize: 10,
+//       style: TextStyle(fontSize: Get.textTheme.bodySmall!.fontSize, color: CommonColors.expenseColor),
+//     ),
+//   );
+// }
 
-EdgeInsets dayEdgeInsets() => const EdgeInsets.fromLTRB(0, 8, 0, 0);
+// title
+Widget? headerTitleBuilder(context, day) {
+    return Container();
+  }
+
+EdgeInsets dayEdgeInsets() => const EdgeInsets.fromLTRB(0, 3, 0, 0);

@@ -45,6 +45,8 @@ dependencies:
   intl: ^0.18.0
   fl_chart: ^0.61.0
   flutter_screenutil: ^5.7.0
+  syncfusion_flutter_datepicker: ^22.1.36
+  flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,4 @@
-import 'package:account_book/common/colors.dart';
+import 'package:account_book/common/constant/colors.dart';
 import 'package:account_book/common/constant/intl.dart';
 import 'package:account_book/constants.dart';
 import 'package:account_book/route.dart';

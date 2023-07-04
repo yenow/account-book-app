@@ -1,11 +1,11 @@
 import 'package:account_book/data/model/trade.dart';
-import 'package:account_book/get/controller/account_detail_controller.dart';
+import 'package:account_book/get/controller/page/trade_list_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class SingleTradeRegisterScreen extends StatelessWidget {
-  const SingleTradeRegisterScreen({Key? key, required this.account}) : super(key: key);
+class TradeRegisterScreen extends StatelessWidget {
+  const TradeRegisterScreen({Key? key, required this.account}) : super(key: key);
   final Trade account;
 
   @override
@@ -65,7 +65,7 @@ class SingleTradeRegisterScreen extends StatelessWidget {
 
   Form buildForm() {
     return Form(
-      key: AccountDetailController.to.formKey,
+      key: TradesPageController.to.formKey,
       child: Column(
         children: [
           Container(

@@ -8,23 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class HomeController extends GetxController {
-  static HomeController get to => Get.find();
-  final PageController pageController = PageController();
-
-  final selectIndex = 0.obs;
-
+class CalendarPageController extends GetxController {
+  static CalendarPageController get to => Get.find();
   final firstDay = DateTime.utc(2000, 01, 01);
   final lastDay = DateTime.utc(2100, 12, 31);
   final focusedDay = DateTime.now().obs;
   final selectedDay = DateTime.now().obs;
   final calendarFormat = CalendarFormat.month.obs;
-
-  void onTap(int index) {
-    selectIndex(index);
-    pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
-    // pageController.jumpToPage(index);
-  }
 
   bool selectedDayPredicate(DateTime dateTime) {
     return isSameDay(focusedDay.value, dateTime);

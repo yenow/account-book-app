@@ -53,11 +53,14 @@ class DarkColors {
 class CommonColors {
 
   // basic
-  static const Color onWhite = Color(0xFFFFFFFF);
-  static const Color onBlack = Color(0xFF2D2D2D);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color black = Color(0xFF2D2D2D);
+  static const Color grey = Colors.grey;
 
+  static const Color mainColor = Color(0xFF6034AC);
   static const Color incomeColor = Color(0xFFFF0006);
   static const Color expenseColor = Color(0xFF0047FF);
+  static const Color transferColor = Color(0xFFF4FFF2);
   static const Color sundayColor = Color(0xFFFA3A3F);
   static const Color saturdayColor = Color(0xFF3C89FF);
 

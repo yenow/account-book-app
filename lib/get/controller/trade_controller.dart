@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:account_book/constants.dart';
 import 'package:account_book/data/model/trade.dart';
-import 'package:account_book/get/controller/home_controller.dart';
+import 'package:account_book/get/controller/page/calendar_page_controller.dart';
 import 'package:get/get.dart';
 
 class TradeController extends GetxController {
@@ -33,7 +33,15 @@ class TradeController extends GetxController {
           amount: 100000,
           categoryId: 2,
           typeName: '지출',
-          categoryName: '변동 지출 [취미]')
+          categoryName: '변동 지출 [취미]'),
+      Trade(
+          id: 6,
+          tradeDate: '2023-07-04',
+          type: 'transfer',
+          amount: 10000,
+          categoryId: 3,
+          typeName: '이체',
+          categoryName: '이체')
     ],
     '2023-04-09': [
       Trade(
@@ -62,7 +70,7 @@ class TradeController extends GetxController {
   // 이번달 총 수입
   int calculateTotalIncome() {
     int totalIncome = 0;
-    int month = HomeController.to.selectedDay.value.month;
+    int month = CalendarPageController.to.selectedDay.value.month;
     log.i('calculateTotalIncome : $month');
 
     accountDateMap.value.forEach((key,List<Trade> value) {
@@ -81,7 +89,7 @@ class TradeController extends GetxController {
   // 이번달 총 지출
   int calculateTotalExpense() {
     int totalExpense = 0;
-    int month = HomeController.to.selectedDay.value.month;
+    int month = CalendarPageController.to.selectedDay.value.month;
 
     accountDateMap.value.forEach((key,List<Trade> value) {
       for (Trade trade in value) {
