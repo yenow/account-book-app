@@ -7,6 +7,7 @@ import 'package:account_book/get/controller/screen/home_screen_controller.dart';
 import 'package:account_book/get/controller/page/calendar_page_controller.dart';
 import 'package:account_book/route.dart';
 import 'package:account_book/screens/home/page/calendar_page.dart';
+import 'package:account_book/screens/home/page/chart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,6 @@ class HomeScreen extends StatelessWidget {
   }
 
   Scaffold buildScaffold() {
-
     return Scaffold(
       body: PageView(
         onPageChanged: HomeScreenController.to.onPageChanged,
@@ -33,9 +33,7 @@ class HomeScreen extends StatelessWidget {
         children: const <Widget>[
           CalendarPage(),
           TradeListPage(),
-          Center(
-            child: Text('Second Page'),
-          ),
+          ChartPage(),
           Center(
             child: Text('Third Page'),
           ),
@@ -50,18 +48,12 @@ class HomeScreen extends StatelessWidget {
   FloatingActionButton? floatingActionButton() {
     return HomeScreenController.to.selectIndex.value == NavigationBarEnum.home.index
         ? FloatingActionButton(
-            onPressed: goToSingleTradeRegisterScreen,
+            onPressed: HomeScreenController.to.goToSingleTradeRegisterScreen,
             child: const Icon(
               Icons.edit,
             ),
           )
         : null;
-  }
-
-  /// 가계부 등록 페이지로 이동
-  void goToSingleTradeRegisterScreen() {
-    log.d('goToAccountDetailScreen()');
-    Get.toNamed(AppRoute.singleTradeRegisterScreen, arguments: Trade(), preventDuplicates: true);
   }
 
   /// 네비게이션바
@@ -99,14 +91,14 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.all(2),
               child: Icon(Icons.list_alt),
             ),
-            label: 'Chats',
+            label: '설정',
           ),
           BottomNavigationBarItem(
             icon: Padding(
               padding: EdgeInsets.all(2),
               child: Icon(Icons.more_horiz),
             ),
-            label: 'Chats',
+            label: '설정',
           ),
         ],
       ),

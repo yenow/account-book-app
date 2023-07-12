@@ -1,5 +1,5 @@
 import 'package:account_book/common/constant/colors.dart';
-import 'package:account_book/common/constant/intl.dart';
+import 'package:account_book/common/constant/format.dart';
 import 'package:account_book/constants.dart';
 import 'package:account_book/route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -17,7 +17,7 @@ class TradeHistoryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: goToAccountDetailScreen,
+      onTap: goToTradeScreen,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: Row(
@@ -40,7 +40,7 @@ class TradeHistoryRow extends StatelessWidget {
             Flexible(
                 flex: 2,
                 fit: FlexFit.tight,
-                child: AutoSizeText(trade.categoryName!, maxLines: 1, textAlign: TextAlign.left)),
+                child: AutoSizeText(trade.accountName!, maxLines: 1, textAlign: TextAlign.left)),
             Flexible(
               flex: 2,
               fit: FlexFit.tight,
@@ -48,7 +48,7 @@ class TradeHistoryRow extends StatelessWidget {
                 '${moneyFormat.format(trade.amount)}원',
                 maxLines: 1,
                 textAlign: TextAlign.right,
-                style: TextStyle(color: trade.type == TradeType.income.name ? CommonColors.incomeColor : CommonColors.expenseColor),
+                style: TextStyle(color: trade.tradeType == TradeType.income.name ? CommonColors.incomeColor : CommonColors.expenseColor),
               ),
             ),
           ],
@@ -57,8 +57,7 @@ class TradeHistoryRow extends StatelessWidget {
     );
   }
 
-  void goToAccountDetailScreen() {
-    log.d('goToAccountDetailScreen()');
-    Get.toNamed(AppRoute.singleTradeRegisterScreen, arguments: trade, preventDuplicates: true);
+  void goToTradeScreen() {
+    Get.toNamed(AppRoute.tradeScreen, arguments: trade, preventDuplicates: true);
   }
 }

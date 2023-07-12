@@ -1,32 +1,51 @@
 class Trade {
-  int? id;
+  int? tradeId;
   String? tradeDate;
-  int? categoryId;
-  String? categoryName;
-  String? type;
+  DateTime? realTradeDate;
+  String? tradeType;
   String? typeName;
   int? amount;
+  int? accountId;
+  String? accountName;
+  int? assetAccountId;
+  String? assetAccountName;
+  int? depositAccountId;
+  String? depositAccountName;
+  int? withdrawAccountId;
+  String? withdrawAccountName;
+  String? content;
   String? memo;
 
   Trade(
-      {this.id,
+      {this.tradeId,
       this.tradeDate,
-      this.categoryId,
-      this.type,
-      this.amount,
-      this.categoryName,
+      this.realTradeDate,
+      this.tradeType,
       this.typeName,
+      this.amount,
+      this.accountId,
+      this.accountName,
+      this.assetAccountId,
+      this.assetAccountName,
+      this.depositAccountId,
+      this.depositAccountName,
+      this.withdrawAccountId,
+      this.withdrawAccountName,
+      this.content,
       this.memo});
 
   @override
   String toString() {
-    return 'Trade{id: $id, tradeDate: $tradeDate, categoryId: $categoryId, categoryName: $categoryName, type: $type, typeName: $typeName, amount: $amount, memo: $memo}';
+    return 'Trade{tradeId: $tradeId, tradeDate: $tradeDate, realTradeDate: $realTradeDate, tradeType: $tradeType, typeName: $typeName, amount: $amount, accountId: $accountId, accountName: $accountName, assetAccountId: $assetAccountId, assetAccountName: $assetAccountName, incomeAccountId: $depositAccountId, incomeAccountName: $depositAccountName, expenseAccountId: $withdrawAccountId, expenseAccountName: $withdrawAccountName, content: $content, memo: $memo}';
   }
 }
 
 enum TradeType {
-  income('수입'), expense('지출'), transfer('이체');  // asset('자산'), debt('빚')
+  income('수입'),
+  expense('지출'),
+  transfer('이체'); // asset('자산'), debt('빚')
 
   const TradeType(this.tradeTypeName);
+
   final String tradeTypeName;
 }

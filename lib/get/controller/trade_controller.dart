@@ -7,59 +7,59 @@ import 'package:get/get.dart';
 
 class TradeController extends GetxController {
   static TradeController get to => Get.find();
-  final accounts = <Trade>[].obs;
-  final accountDateMap = Rx<Map<String, List<Trade>>>({
+  final trades = <Trade>[].obs;
+  final tradeListMap = Rx<Map<String, List<Trade>>>({
     '2023-07-04': [
       Trade(
-          id: 1,
+          tradeId: 1,
           tradeDate: '2023-07-04',
-          type: 'expense',
-          categoryId: 1,
+          tradeType: 'expense',
+          accountId: 1,
           amount: 1000000,
           typeName: '지출',
-          categoryName: '변동 지출 [식비]'),
+          accountName: '변동 지출 [식비]'),
       Trade(
-          id: 2,
+          tradeId: 2,
           tradeDate: '2023-07-04',
-          type: 'income',
+          tradeType: 'income',
           amount: 10000,
-          categoryId: 2,
+          accountId: 2,
           typeName: '수입',
-          categoryName: '월급'),
+          accountName: '월급'),
       Trade(
-          id: 5,
+          tradeId: 5,
           tradeDate: '2023-07-04',
-          type: 'expense',
+          tradeType: 'expense',
           amount: 100000,
-          categoryId: 2,
+          accountId: 2,
           typeName: '지출',
-          categoryName: '변동 지출 [취미]'),
+          accountName: '변동 지출 [취미]'),
       Trade(
-          id: 6,
+          tradeId: 6,
           tradeDate: '2023-07-04',
-          type: 'transfer',
+          tradeType: 'transfer',
           amount: 10000,
-          categoryId: 3,
+          accountId: 3,
           typeName: '이체',
-          categoryName: '이체')
+          accountName: '이체')
     ],
     '2023-04-09': [
       Trade(
-          id: 3,
+          tradeId: 3,
           tradeDate: '2023-04-09',
-          type: 'expense',
-          categoryId: 3,
+          tradeType: 'expense',
+          accountId: 3,
           amount: 10000,
           typeName: '지출',
-          categoryName: '변동 지출 [식비]'),
+          accountName: '변동 지출 [식비]'),
       Trade(
-          id: 4,
+          tradeId: 4,
           tradeDate: '2023-04-09',
-          type: 'income',
-          categoryId: 4,
+          tradeType: 'income',
+          accountId: 4,
           amount: 10000,
           typeName: '수입',
-          categoryName: '월급')
+          accountName: '월급')
     ]
   });
 
@@ -71,13 +71,12 @@ class TradeController extends GetxController {
   int calculateTotalIncome() {
     int totalIncome = 0;
     int month = CalendarPageController.to.selectedDay.value.month;
-    log.i('calculateTotalIncome : $month');
 
-    accountDateMap.value.forEach((key,List<Trade> value) {
+    tradeListMap.value.forEach((key,List<Trade> value) {
       for (Trade trade in value) {
         int tradeMonth = int.parse(trade.tradeDate!.substring(5,7));
 
-        if (tradeMonth == month && trade.type == TradeType.income.name) {
+        if (tradeMonth == month && trade.tradeType == TradeType.income.name) {
           totalIncome = totalIncome + trade.amount!;
         }
       }
@@ -91,11 +90,11 @@ class TradeController extends GetxController {
     int totalExpense = 0;
     int month = CalendarPageController.to.selectedDay.value.month;
 
-    accountDateMap.value.forEach((key,List<Trade> value) {
+    tradeListMap.value.forEach((key,List<Trade> value) {
       for (Trade trade in value) {
         int tradeMonth = int.parse(trade.tradeDate!.substring(5,7));
 
-        if (tradeMonth == month && trade.type == TradeType.expense.name) {
+        if (tradeMonth == month && trade.tradeType == TradeType.expense.name) {
           totalExpense = totalExpense + trade.amount!;
         }
       }

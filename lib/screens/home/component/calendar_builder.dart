@@ -1,11 +1,12 @@
 import 'package:account_book/common/constant/colors.dart';
 import 'package:account_book/data/model/trade.dart';
-import 'package:account_book/utilities/function/convert.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../../utilities/function/convert.dart';
 
 // 커스텀 캘린더
 CalendarBuilders<dynamic> buildCalendarBuilders() {
@@ -39,8 +40,8 @@ Widget? dowBuilder(context, day) {
     ),
   );
 }
-// 오늘 날짜
 
+// 오늘 날짜
 Widget? todayBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
   return Center(
     child: Text(
@@ -48,8 +49,8 @@ Widget? todayBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
     ),
   );
 }
-// 기본 날짜
 
+// 기본 날짜
 Widget? defaultBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
   Color color = Colors.black;
   if (day.weekday == DateTime.sunday) {
@@ -67,8 +68,8 @@ Widget? defaultBuilder(BuildContext context, DateTime day, DateTime focusedDay) 
     ),
   );
 }
-// 해당 월 제외
 
+// 해당 월 제외
 Widget? outsiderBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
   return Container(
     padding: dayEdgeInsets(),
@@ -76,8 +77,8 @@ Widget? outsiderBuilder(BuildContext context, DateTime day, DateTime focusedDay)
     child: Text('${day.day}', style: TextStyle(color: Colors.grey)),
   );
 }
-// 선택 날짜
 
+// 선택 날짜
 Widget? selectedBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
   return Container(
     width: double.infinity,
@@ -89,18 +90,18 @@ Widget? selectedBuilder(BuildContext context, DateTime day, DateTime focusedDay)
   );
 }
 
-///
+// 마커
 Widget? markerBuilder(BuildContext context, DateTime day, events) {
   if (events.isNotEmpty) {
     int? income = 0;
     int? expense = 0;
     int? transfer = 0;
     for (Trade trade in events) {
-      if (trade.type == TradeType.income.name) {
+      if (trade.tradeType == TradeType.income.name) {
         income = income! + trade.amount!;
-      } else if (trade.type == 'expense') {
+      } else if (trade.tradeType == 'expense') {
         expense = expense! + trade.amount!;
-      } else if (trade.type == 'transfer') {
+      } else if (trade.tradeType == 'transfer') {
         transfer = transfer! + trade.amount!;
       }
     }
@@ -121,10 +122,10 @@ Widget? markerBuilder(BuildContext context, DateTime day, events) {
 
 Container buildTradeMarker(int? amount, Color? color, EdgeInsetsGeometry? padding) {
   return Container(
-    padding: padding,   //  const EdgeInsets.fromLTRB(0, 25, 0, 0),
+    padding: padding, //  const EdgeInsets.fromLTRB(0, 25, 0, 0),
     alignment: Alignment.centerRight,
     child: AutoSizeText(
-      numberFormat(amount!),
+      Converter.numberFormat(amount!),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       minFontSize: 6,
@@ -150,7 +151,7 @@ Container buildTradeMarker(int? amount, Color? color, EdgeInsetsGeometry? paddin
 
 // title
 Widget? headerTitleBuilder(context, day) {
-    return Container();
-  }
+  return Container();
+}
 
 EdgeInsets dayEdgeInsets() => const EdgeInsets.fromLTRB(0, 3, 0, 0);

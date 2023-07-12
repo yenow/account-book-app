@@ -4,6 +4,7 @@ import 'package:account_book/get/binding/init_binding.dart';
 import 'package:account_book/route.dart';
 import 'package:account_book/screens/home/home_screen.dart';
 import 'package:account_book/common/theme/theme.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (BuildContext context, Widget? child) {
         return GetMaterialApp(
-          title: 'Flutter Demo',
+          title: 'account book',
           builder: (context, child) {
             // 기기의 폰트 사이즈 무시하기
             final MediaQueryData data = MediaQuery.of(context);
@@ -54,8 +55,8 @@ class MyApp extends StatelessWidget {
           getPages: AppRoute.getRoutes(),
           initialBinding: InitBinding(),
           theme: theme(),
-          darkTheme: darkTheme(),
-          themeMode: ThemeMode.light,
+          // darkTheme: darkTheme(),
+          // themeMode: ThemeMode.light,
           // localizationsDelegates: const [
           //   GlobalMaterialLocalizations.delegate,
           //   GlobalWidgetsLocalizations.delegate,

@@ -43,21 +43,24 @@ dependencies:
   logger: ^1.1.0
   table_calendar: ^3.0.9
   intl: ^0.18.0
-  fl_chart: ^0.61.0
+#  fl_chart: ^0.62.0
   flutter_screenutil: ^5.7.0
   syncfusion_flutter_datepicker: ^22.1.36
   flutter_secure_storage: ^8.0.0
+  retrofit: ^4.0.1
+  dio: ^5.2.1+1
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.2
+  json_annotation: ^4.8.1
+  custom_radio_grouped_button: ^2.2.0
+  fl_chart: ^0.62.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  retrofit_generator: '>=5.0.0 <6.0.0'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
