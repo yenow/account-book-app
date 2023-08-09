@@ -1,7 +1,20 @@
+import 'package:json_annotation/json_annotation.dart';
 
-class User {
+import 'base_model.dart';
+
+part 'user.g.dart';
+
+@JsonSerializable()
+class User extends BaseModel {
   int? userId;
-  String? userKey;
+  String? name;
+  String? email;
+  String? photoUrl;
 
-  User({this.userId, this.userKey});
+  User({this.userId, this.name, this.email, this.photoUrl});
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }

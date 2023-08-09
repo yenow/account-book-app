@@ -11,47 +11,82 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../utilities/function/convert.dart';
+import '../../../common/constant/size.dart';
+import '../../../utilities/function/converter.dart';
 
-class CalendarPage extends StatelessWidget {
+class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
 
   @override
+  State<CalendarPage> createState() => _CalendarPageState();
+}
+
+class _CalendarPageState extends State<CalendarPage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('가계부'),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Obx(() => buildHeader()),
-          Obx(() => buildTotal()),
-          Obx(() => buildTableCalendar()),
-          Obx(() => buildTradeHistory()),
-          // , const SizedBox(height: 10), buildTransactionHistory()
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Obx(() => buildMonthIndicator()),
+            Obx(() => buildTotal()),
+            Obx(() => buildTableCalendar()),
+            Obx(() => buildTradeHistory()),
+            // , const SizedBox(height: 10), buildTransactionHistory()
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildHeader() {
+  Widget buildMonthIndicator() {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      // color: Get.theme.colorScheme.surface,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Flexible(
-              flex: 1,
-              child: Align(alignment: Alignment.center, child: Icon(Icons.chevron_left, size: 20) // Icons.chevron_left
-                  )),
           Flexible(
-              flex: 1,
-              child: Text(
-                '${CalendarPageController.to.selectedDay.value.year}년 ${CalendarPageController.to.selectedDay.value.month}월',
-                style: Get.textTheme.bodyLarge,
-              )),
-          const Flexible(flex: 1, child: Align(alignment: Alignment.center, child: Icon(Icons.chevron_right, size: 20))),
+            flex: 1,
+            fit: FlexFit.tight,
+            child: IconButton(
+              icon: const Icon(Icons.chevron_left),
+              onPressed: CalendarPageController.to.goToPreviousMonth,
+              style: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(const Size(20, 20)),
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            fit: FlexFit.tight,
+            child: Text(
+              '${CalendarPageController.to.selectedDay.value.year}년 ${CalendarPageController.to.selectedDay.value.month}월',
+              textAlign: TextAlign.center,
+              style: Get.textTheme.bodyLarge,
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            fit: FlexFit.tight,
+            child: IconButton(
+              icon: const Icon(Icons.chevron_right),
+              onPressed: CalendarPageController.to.goToNextMonth,
+              style: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(const Size(20, 20)),
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -59,40 +94,81 @@ class CalendarPage extends StatelessWidget {
 
   Container buildTotal() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      decoration: BoxDecoration(
+        // color: Get.theme.colorScheme.surface,
+        border: Border.all(
+          width: 0.1,
+          color: Get.theme.colorScheme.outline,
+        ),
+      ),
       child: Row(
         children: [
           Flexible(
               flex: 1,
+              fit: FlexFit.tight,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: BorderSide(
+                      width: 0.3,
+                      color: Get.theme.colorScheme.outline,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      '수입',
+                      style: TextStyle(color: CommonColors.incomeColor),
+                    ),
+                    AutoSizeText(
+                      '${AppConverter.numberFormat(TradeController.to.calculateTotalIncome())}원',
+                      style: TextStyle(color: CommonColors.incomeColor, letterSpacing: CommonSize.letterSpacing),
+                      textAlign: TextAlign.right,
+                      maxLines: 1,
+                    )
+                  ],
+                ),
+              )),
+          Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: BorderSide(
+                      width: 0.3,
+                      color: Get.theme.colorScheme.outline,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text('지출', style: TextStyle(color: CommonColors.expenseColor)),
+                    AutoSizeText(
+                      '${AppConverter.numberFormat(TradeController.to.calculateTotalExpense())}원',
+                      style: TextStyle(color: CommonColors.expenseColor, letterSpacing: CommonSize.letterSpacing),
+                      textAlign: TextAlign.right,
+                      maxLines: 1,
+                    )
+                  ],
+                ),
+              )),
+          Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const Text(
-                    '수입',
-                    style: TextStyle(color: CommonColors.incomeColor),
-                  ),
+                  Text('합계', style: TextStyle(color: CommonColors.black, letterSpacing: CommonSize.letterSpacing)),
                   AutoSizeText(
-                    Converter.numberFormat(TradeController.to.calculateTotalIncome()),
+                    '${AppConverter.numberFormat(TradeController.to.calculateTotalIncome() - TradeController.to.calculateTotalExpense())}원',
+                    textAlign: TextAlign.right,
                     maxLines: 1,
                   )
-                ],
-              )),
-          Flexible(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Text('지출', style: TextStyle(color: CommonColors.expenseColor)),
-                  AutoSizeText(Converter.numberFormat(TradeController.to.calculateTotalExpense()), maxLines: 1)
-                ],
-              )),
-          Flexible(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const Text('합계', style: TextStyle(color: CommonColors.black)),
-                  AutoSizeText(Converter.numberFormat(TradeController.to.calculateTotalIncome() - TradeController.to.calculateTotalExpense()), maxLines: 1)
                 ],
               ))
         ],
@@ -102,37 +178,46 @@ class CalendarPage extends StatelessWidget {
 
   /// 캘린더 영역
   Widget buildTableCalendar() {
-    return TableCalendar(
-      firstDay: CalendarPageController.to.firstDay,
-      lastDay: CalendarPageController.to.lastDay,
-      focusedDay: CalendarPageController.to.focusedDay.value,
-      rowHeight: 60,
-      headerVisible: false,
-      headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true, headerPadding: EdgeInsets.symmetric(vertical: 5)),
-      calendarStyle: const CalendarStyle(
-        canMarkersOverflow: false,
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 0.1,
+            color: Get.theme.colorScheme.outline,
+          ),
+        ),
       ),
-      calendarFormat: CalendarFormat.month,
-      onPageChanged: CalendarPageController.to.onPageChanged,
-      onFormatChanged: CalendarPageController.to.onFormatChanged,
-      selectedDayPredicate: CalendarPageController.to.selectedDayPredicate,
-      onDaySelected: CalendarPageController.to.onDaySelected,
-      eventLoader: CalendarPageController.to.eventLoader,
-      calendarBuilders: buildCalendarBuilders(), // 캘린터 설정
+      child: TableCalendar(
+        firstDay: CalendarPageController.to.firstDay,
+        lastDay: CalendarPageController.to.lastDay,
+        focusedDay: CalendarPageController.to.focusedDay.value,
+        rowHeight: 65,
+        headerVisible: false,
+        headerStyle: const HeaderStyle(
+            formatButtonVisible: false, titleCentered: true, headerPadding: EdgeInsets.symmetric(vertical: 5), titleTextStyle: TextStyle(fontSize: 20)),
+        calendarStyle: const CalendarStyle(
+          canMarkersOverflow: false,
+        ),
+        calendarFormat: CalendarFormat.month,
+        onPageChanged: CalendarPageController.to.onPageChanged,
+        onFormatChanged: CalendarPageController.to.onFormatChanged,
+        selectedDayPredicate: CalendarPageController.to.selectedDayPredicate,
+        onDaySelected: CalendarPageController.to.onDaySelected,
+        eventLoader: CalendarPageController.to.eventLoader,
+        calendarBuilders: buildCalendarBuilders(), // 캘린터 설정
+      ),
     );
   }
 
   // 당일 거래 내역
-  Expanded buildTradeHistory() {
-    return Expanded(
-      child: ListView(children: [
-        // buildHeadRow(),
-        for (Trade trade in TradeController.to.tradeListMap.value[dateFormat.format(CalendarPageController.to.focusedDay.value)] ?? [])
-          TradeHistoryRow(
-            trade: trade,
-          )
-      ]),
-    );
+  Widget buildTradeHistory() {
+    return ListView(shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), children: [
+      for (Trade trade in TradeController.to.tradeListMap.value[AppConverter.toDayString(CalendarPageController.to.focusedDay.value)] ?? [])
+        TradeHistoryRow(
+          trade: trade,
+        )
+    ]);
   }
 
   Container buildHeadRow() {

@@ -12,23 +12,21 @@ class _TradeClient implements TradeClient {
   _TradeClient(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'http://192.168.0.6:8080';
-  }
+  });
 
   final Dio _dio;
 
   String? baseUrl;
 
   @override
-  Future<TradeRequestDto> save({required trade}) async {
+  Future<SingleResponse<TradeResponseDto>> saveTrade({required trade}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(trade.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<TradeRequestDto>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleResponse<TradeResponseDto>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -40,7 +38,36 @@ class _TradeClient implements TradeClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = TradeRequestDto.fromJson(_result.data!);
+    final value = SingleResponse<TradeResponseDto>.fromJson(
+      _result.data!,
+      (json) => TradeResponseDto.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<MapResponse<Trade>> findAllTradeOfUser() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<MapResponse<Trade>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/trade/findAllTradeOfUser',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = MapResponse<Trade>.fromJson(
+      _result.data!,
+      (json) => Trade.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 

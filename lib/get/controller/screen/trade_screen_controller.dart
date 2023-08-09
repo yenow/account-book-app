@@ -1,17 +1,21 @@
 import 'package:account_book/data/dto/trade/trade_request_dto.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/account_controller.dart';
+import 'package:account_book/get/controller/trade_controller.dart';
 import 'package:account_book/get/controller/user_controller.dart';
-import 'package:account_book/screens/trade/component/assert_bottom_sheet.dart';
+import 'package:account_book/screens/trade/component/asset_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../constants.dart';
-import '../../../data/client/client_list.dart';
+import '../../../common/widget/dialog.dart';
+import '../../../common/log_config.dart';
+import '../../../data/client/clients.dart';
+import '../../../data/dto/single_response.dart';
+import '../../../data/dto/trade/trade_response_dto.dart';
 import '../../../data/model/account.dart';
-import '../../../screens/trade/component/type_bottom_sheet.dart';
-import '../../../utilities/function/convert.dart';
+import '../../../screens/trade/component/income_expense_account_bottom_sheet.dart';
+import '../../../utilities/function/converter.dart';
 
 class TradesScreenController extends GetxController {
   static TradesScreenController get to => Get.find();
@@ -19,12 +23,12 @@ class TradesScreenController extends GetxController {
   final formKey = GlobalKey<FormState>();
   bool isClickedSaveButton = false; // 저장 클릭 여부
 
-  final tradeType = ''.obs;   // 현재 선택된 거래 타입 (수입, 지출, 이체)
+  final tradeType = ''.obs; // 현재 선택된 거래 타입 (수입, 지출, 이체)
 
   // TextEditingController
   TextEditingController dateController = TextEditingController();
   TextEditingController amountController = TextEditingController(text: '0');
-  TextEditingController accountController = TextEditingController();
+  TextEditingController incomeExpenseAccountController = TextEditingController();
   TextEditingController assetController = TextEditingController();
   TextEditingController contentController = TextEditingController();
   TextEditingController memoController = TextEditingController();
@@ -32,9 +36,8 @@ class TradesScreenController extends GetxController {
   TextEditingController withdrawAssertTextController = TextEditingController();
   Trade trade = Trade();
 
-
   // 거래 저장
-  void saveTrade() {
+  Future<void> saveTrade() async {
     isClickedSaveButton = true;
     if (formKey.currentState!.validate()) {
       trade.tradeType = tradeType.value;
@@ -45,10 +48,12 @@ class TradesScreenController extends GetxController {
       TradeRequestDto tradeRequestDto = TradeRequestDto();
       tradeRequestDto.setTrade(trade);
       tradeRequestDto.userId = UserController.to.user.value.userId;
-      tradeClient.save(trade: tradeRequestDto).then((value) {
-        return null;
-      });
 
+      tradeClient.saveTrade(trade: tradeRequestDto).then((SingleResponse<TradeResponseDto> value) async {
+        await TradeController.to.findTrades();
+        dlog.i(value);
+        Get.back(result: 'Y');
+      });
     }
   }
 
@@ -65,23 +70,7 @@ class TradesScreenController extends GetxController {
       return;
     }
 
-    bool confirm = await Get.defaultDialog(
-      title: '알림',
-      titleStyle: TextStyle(fontSize: Get.textTheme.titleMedium!.fontSize, color: Get.theme.colorScheme.onBackground),
-      backgroundColor: Get.theme.colorScheme.background,
-      buttonColor: Get.theme.colorScheme.primary,
-      content: Text(
-        '삭제하시겠습니까?',
-        style: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize, color: Get.theme.colorScheme.onBackground),
-      ),
-      textConfirm: '예',
-      confirmTextColor: Colors.white,
-      onConfirm: () {
-        Get.back(result: true);
-      },
-      textCancel: '아니요',
-      cancelTextColor: Get.theme.colorScheme.primary,
-    );
+    bool confirm = await deleteDialog();
 
     if (confirm) {
       log.i('deleteTrade');
@@ -135,7 +124,7 @@ class TradesScreenController extends GetxController {
 
   //region 분류(계정)
   // 분류 선택
-  void onTapToAccountInput() async {
+  void onTapToIncomeExpenseAccountInput() async {
     TradeType pTradeType;
     List<Account> pAccounts;
     log.i(tradeType.value);
@@ -151,7 +140,7 @@ class TradesScreenController extends GetxController {
     }
 
     Account? result = await Get.bottomSheet(
-      TypeBottomSheet(
+      IncomeExpenseAccountBottomSheet(
         tradeType: pTradeType,
         accounts: pAccounts,
       ),
@@ -167,9 +156,9 @@ class TradesScreenController extends GetxController {
     );
 
     if (result != null) {
-      accountController.text = result.accountName!;
-      trade.accountId = result.accountId;
-      trade.accountName = result.accountName;
+      incomeExpenseAccountController.text = result.accountName!;
+      trade.incomeOrExpenseAccountId = result.accountId;
+      trade.incomeOrExpenseAccountName = result.accountName;
     }
     validate();
   }
@@ -191,7 +180,7 @@ class TradesScreenController extends GetxController {
   void onChangedToAmountInput(String value) {
     if (value != '') {
       int price = int.parse(value.replaceAll(',', ''));
-      amountController.text = Converter.numberFormat(price);
+      amountController.text = AppConverter.numberFormat(price);
       trade.amount = price;
     }
 
@@ -221,7 +210,7 @@ class TradesScreenController extends GetxController {
   // 자산 선택시
   void onTapToAssetInput() async {
     Account? result = await Get.bottomSheet(
-      const AssertBottomSheet(),
+      const AssetBottomSheet(),
       elevation: 2,
       backgroundColor: Get.theme.colorScheme.background,
       enterBottomSheetDuration: const Duration(microseconds: 1000),
@@ -255,7 +244,7 @@ class TradesScreenController extends GetxController {
   // 입금 선택
   void onTapToDepositAssetInput() async {
     Account? result = await Get.bottomSheet(
-      const AssertBottomSheet(),
+      const AssetBottomSheet(),
       elevation: 2,
       backgroundColor: Get.theme.colorScheme.background,
       enterBottomSheetDuration: const Duration(microseconds: 1000),
@@ -274,6 +263,7 @@ class TradesScreenController extends GetxController {
     }
     validate();
   }
+
   // 입금 유효성 검증
   String? validateToDepositAssetInput(String? value) {
     if (value == null || value == '') {
@@ -282,11 +272,10 @@ class TradesScreenController extends GetxController {
     return null;
   }
 
-
   // 지출 선택
   void onTapToWithdrawAssetInput() async {
     Account? result = await Get.bottomSheet(
-      const AssertBottomSheet(),
+      const AssetBottomSheet(),
       elevation: 2,
       backgroundColor: Get.theme.colorScheme.background,
       enterBottomSheetDuration: const Duration(microseconds: 1000),
@@ -305,6 +294,7 @@ class TradesScreenController extends GetxController {
     }
     validate();
   }
+
   // 출금 유효성 검증
   String? validateToWithdrawAssetInput(String? value) {
     if (value == null || value == '') {

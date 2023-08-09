@@ -1,4 +1,4 @@
-import 'package:account_book/constants.dart';
+import 'package:account_book/common/log_config.dart';
 import 'package:account_book/common/theme/dark_theme.dart';
 import 'package:account_book/get/binding/init_binding.dart';
 import 'package:account_book/route.dart';
@@ -10,20 +10,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+// 보안 저장소
 final storage = FlutterSecureStorage(aOptions: _getAndroidOptions(), iOptions: _getIOSOptions());
 IOSOptions _getIOSOptions() => const IOSOptions();
 AndroidOptions _getAndroidOptions() => const AndroidOptions(
   encryptedSharedPreferences: true,
 );
 
+// 구글 로그인
+GoogleSignIn googleSignIn = GoogleSignIn();
+
 void main() async {
-  log.d('height : ${Get.height}, width : ${Get.width}');
-
+  dlog.i('height : ${Get.height}, width : ${Get.width}');
   WidgetsFlutterBinding.ensureInitialized();
-  String? key = await storage.read(key: 'key');
-
   await ScreenUtil.ensureScreenSize();
+
   runApp(const MyApp());
 }
 
@@ -54,6 +57,7 @@ class MyApp extends StatelessWidget {
           },
           getPages: AppRoute.getRoutes(),
           initialBinding: InitBinding(),
+          initialRoute: AppRoute.root,
           theme: theme(),
           // darkTheme: darkTheme(),
           // themeMode: ThemeMode.light,
@@ -62,7 +66,6 @@ class MyApp extends StatelessWidget {
           //   GlobalWidgetsLocalizations.delegate,
           //   GlobalCupertinoLocalizations.delegate,
           // ],
-          home: const HomeScreen(),
         );
       },
     );

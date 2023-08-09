@@ -1,4 +1,6 @@
 import 'package:account_book/common/constant/colors.dart';
+import 'package:account_book/common/constant/fontsize.dart';
+import 'package:account_book/common/constant/size.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../utilities/function/convert.dart';
+import '../../../utilities/function/converter.dart';
 
 // 커스텀 캘린더
 CalendarBuilders<dynamic> buildCalendarBuilders() {
@@ -24,21 +26,38 @@ CalendarBuilders<dynamic> buildCalendarBuilders() {
 // 요일
 Widget? dowBuilder(context, day) {
   final text = DateFormat.E().format(day);
-  Color color = Colors.black;
+  Color color = Get.theme.colorScheme.onBackground;
   if (day.weekday == DateTime.sunday) {
     color = CommonColors.sundayColor;
   } else if (day.weekday == DateTime.saturday) {
     color = CommonColors.saturdayColor;
   }
 
-  return Container(
-    height: 0,
-    alignment: Alignment.center,
-    child: Text(
-      text,
-      style: TextStyle(color: color),
-    ),
+  return Text(
+    text,
+    textAlign: TextAlign.center,
+    style: TextStyle(color: color, fontSize: Get.textTheme.bodyMedium!.fontSize),
   );
+}
+
+String getDowText(day) {
+  switch (day.weekday) {
+    case DateTime.sunday:
+      return '일';
+    case DateTime.saturday:
+      return '토';
+    case DateTime.friday:
+      return '금';
+    case DateTime.thursday:
+      return '목';
+    case DateTime.wednesday:
+      return '수';
+    case DateTime.tuesday:
+      return '화';
+    case DateTime.monday:
+      return '월';
+  }
+  return '';
 }
 
 // 오늘 날짜
@@ -52,7 +71,7 @@ Widget? todayBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
 
 // 기본 날짜
 Widget? defaultBuilder(BuildContext context, DateTime day, DateTime focusedDay) {
-  Color color = Colors.black;
+  Color color = Get.theme.colorScheme.onBackground;
   if (day.weekday == DateTime.sunday) {
     color = CommonColors.sundayColor;
   } else if (day.weekday == DateTime.saturday) {
@@ -64,7 +83,7 @@ Widget? defaultBuilder(BuildContext context, DateTime day, DateTime focusedDay) 
     alignment: Alignment.topCenter,
     child: Text(
       '${day.day}',
-      style: TextStyle(color: color),
+      style: TextStyle(color: color, fontSize: Get.textTheme.bodyMedium!.fontSize),
     ),
   );
 }
@@ -74,7 +93,7 @@ Widget? outsiderBuilder(BuildContext context, DateTime day, DateTime focusedDay)
   return Container(
     padding: dayEdgeInsets(),
     alignment: Alignment.topCenter,
-    child: Text('${day.day}', style: TextStyle(color: Colors.grey)),
+    child: Text('${day.day}', style: const TextStyle(color: Colors.grey)),
   );
 }
 
@@ -84,7 +103,7 @@ Widget? selectedBuilder(BuildContext context, DateTime day, DateTime focusedDay)
     width: double.infinity,
     height: double.infinity,
     padding: dayEdgeInsets(),
-    color: CommonColors.purple1,
+    color: Get.theme.colorScheme.onPrimaryContainer,
     alignment: Alignment.topCenter,
     child: Text('${day.day}'),
   );
@@ -109,7 +128,7 @@ Widget? markerBuilder(BuildContext context, DateTime day, events) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        income == 0 ? Container() : buildTradeMarker(income, CommonColors.incomeColor, const EdgeInsets.fromLTRB(0, 20, 0, 0)),
+        income == 0 ? Container() : buildTradeMarker(income, CommonColors.incomeColor, const EdgeInsets.fromLTRB(0, 25, 0, 0)),
         expense == 0 ? Container() : buildTradeMarker(expense, CommonColors.expenseColor, const EdgeInsets.fromLTRB(0, 0, 0, 0)),
         transfer == 0 ? Container() : buildTradeMarker(transfer, CommonColors.transferColor, const EdgeInsets.fromLTRB(0, 0, 0, 0)),
       ],
@@ -125,12 +144,12 @@ Container buildTradeMarker(int? amount, Color? color, EdgeInsetsGeometry? paddin
     padding: padding, //  const EdgeInsets.fromLTRB(0, 25, 0, 0),
     alignment: Alignment.centerRight,
     child: AutoSizeText(
-      Converter.numberFormat(amount!),
+      AppConverter.numberFormat(amount!),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       minFontSize: 6,
       maxFontSize: 10,
-      style: TextStyle(fontSize: Get.textTheme.bodySmall!.fontSize, color: color),
+      style: TextStyle(fontSize: Get.textTheme.bodySmall!.fontSize, color: color, letterSpacing: CommonSize.letterSpacing),
     ),
   );
 }
@@ -154,4 +173,4 @@ Widget? headerTitleBuilder(context, day) {
   return Container();
 }
 
-EdgeInsets dayEdgeInsets() => const EdgeInsets.fromLTRB(0, 3, 0, 0);
+EdgeInsets dayEdgeInsets() => const EdgeInsets.fromLTRB(0, 10, 0, 0);

@@ -1,12 +1,19 @@
-class Trade {
+import 'package:json_annotation/json_annotation.dart';
+
+import 'base_model.dart';
+
+part 'trade.g.dart';
+
+@JsonSerializable()
+class Trade extends BaseModel {
   int? tradeId;
   String? tradeDate;
   DateTime? realTradeDate;
   String? tradeType;
   String? typeName;
   int? amount;
-  int? accountId;
-  String? accountName;
+  int? incomeOrExpenseAccountId;
+  String? incomeOrExpenseAccountName;
   int? assetAccountId;
   String? assetAccountName;
   int? depositAccountId;
@@ -23,8 +30,8 @@ class Trade {
       this.tradeType,
       this.typeName,
       this.amount,
-      this.accountId,
-      this.accountName,
+      this.incomeOrExpenseAccountId,
+      this.incomeOrExpenseAccountName,
       this.assetAccountId,
       this.assetAccountName,
       this.depositAccountId,
@@ -34,10 +41,10 @@ class Trade {
       this.content,
       this.memo});
 
+  factory Trade.fromJson(Map<String, dynamic> json) => _$TradeFromJson(json);
+
   @override
-  String toString() {
-    return 'Trade{tradeId: $tradeId, tradeDate: $tradeDate, realTradeDate: $realTradeDate, tradeType: $tradeType, typeName: $typeName, amount: $amount, accountId: $accountId, accountName: $accountName, assetAccountId: $assetAccountId, assetAccountName: $assetAccountName, incomeAccountId: $depositAccountId, incomeAccountName: $depositAccountName, expenseAccountId: $withdrawAccountId, expenseAccountName: $withdrawAccountName, content: $content, memo: $memo}';
-  }
+  Map<String, dynamic> toJson() => _$TradeToJson(this);
 }
 
 enum TradeType {

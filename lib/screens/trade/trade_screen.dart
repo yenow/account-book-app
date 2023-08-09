@@ -4,11 +4,12 @@ import 'package:account_book/get/controller/screen/trade_screen_controller.dart'
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../constants.dart';
-import '../../utilities/function/convert.dart';
+import '../../common/log_config.dart';
+import '../../utilities/function/converter.dart';
 import 'component/trade_type_radio_button.dart';
 
 class TradeScreen extends StatelessWidget {
@@ -42,7 +43,7 @@ class TradeScreen extends StatelessWidget {
   // 앱바
   AppBar buildAppBar() {
     return AppBar(
-      title: Obx(() => Text(Converter.convertTradeType(TradesScreenController.to.tradeType.value))),
+      title: Obx(() => Text(AppConverter.convertTradeType(TradesScreenController.to.tradeType.value))),
       actions: [
         IconButton(
           icon: const Icon(
@@ -77,7 +78,7 @@ class TradeScreen extends StatelessWidget {
           children: [
             buildDateInput(),
             buildAmountInput(),
-            TradesScreenController.to.tradeType.value == TradeType.transfer.name ? buildDepositAssetInput() : buildTypeInput(),
+            TradesScreenController.to.tradeType.value == TradeType.transfer.name ? buildDepositAssetInput() : buildIncomeExpenseAccountInput(),
             TradesScreenController.to.tradeType.value == TradeType.transfer.name ? buildWithdrawAssetInput() : buildAssetInput(),
             buildContentInput(),
             buildMemoInput(),
@@ -158,8 +159,8 @@ class TradeScreen extends StatelessWidget {
       cursorColor: Get.theme.colorScheme.outlineVariant,
       textInputAction: TextInputAction.next,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      inputFormatters: const [
-        // FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),  // 정규식
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
       ],
       style: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize!),
       decoration: buildInputDecoration(),
@@ -168,19 +169,19 @@ class TradeScreen extends StatelessWidget {
 
   //endregion
 
-  //region 분류 입력
-  Container buildTypeInput() {
+  //region 분류 입력 (수입, 지출 계정)
+  Container buildIncomeExpenseAccountInput() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
           buildText(titleText: '분류'),
-          Expanded(child: buildTypeInputForm()),
+          Expanded(child: buildIncomeExpenseAccountInputForm()),
           SizedBox(
             width: 35,
             height: 35,
             child: IconButton(
-              onPressed: TradesScreenController.to.onTapToAccountInput,
+              onPressed: TradesScreenController.to.onTapToIncomeExpenseAccountInput,
               icon: const Icon(CupertinoIcons.arrow_counterclockwise_circle_fill),
             ),
           ),
@@ -189,12 +190,12 @@ class TradeScreen extends StatelessWidget {
     );
   }
 
-  TextFormField buildTypeInputForm() {
+  TextFormField buildIncomeExpenseAccountInputForm() {
     return TextFormField(
       onSaved: (newValue) {},
       validator: TradesScreenController.to.validateToTypeInput,
-      onTap: TradesScreenController.to.onTapToAccountInput,
-      controller: TradesScreenController.to.accountController,
+      onTap: TradesScreenController.to.onTapToIncomeExpenseAccountInput,
+      controller: TradesScreenController.to.incomeExpenseAccountController,
       maxLines: 1,
       readOnly: true,
       autofocus: false,
@@ -341,7 +342,7 @@ class TradeScreen extends StatelessWidget {
       maxLength: 200,
       autofocus: false,
       cursorColor: Get.theme.colorScheme.outlineVariant,
-      controller: TextEditingController(text: ''),
+      controller: TradesScreenController.to.contentController,
       decoration: buildInputDecoration(),
       style: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize!),
     );
@@ -375,7 +376,7 @@ class TradeScreen extends StatelessWidget {
         maxLength: 1000,
         autofocus: false,
         cursorColor: Get.theme.colorScheme.outlineVariant,
-        controller: TextEditingController(text: ''),
+        controller: TradesScreenController.to.memoController,
         cursorHeight: cursorHeight(),
         style: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize!),
         decoration: buildInputDecorationOutLine(),

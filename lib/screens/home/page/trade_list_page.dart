@@ -64,7 +64,7 @@ class TradeListPage extends StatelessWidget {
           ),
           IconButton(
               onPressed: () {
-                AccountController.to.findAccountsByAccountType();
+                AccountController.to.findAccounts();
               },
               icon: Icon(Icons.ac_unit))
         ],

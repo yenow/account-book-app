@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:account_book/common/constant/format.dart';
-import 'package:account_book/constants.dart';
+import 'package:account_book/common/log_config.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/trade_controller.dart';
 import 'package:flutter/material.dart';

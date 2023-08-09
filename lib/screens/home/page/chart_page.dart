@@ -5,41 +5,62 @@ import 'package:get/get.dart';
 
 import '../../../get/controller/page/chart_page_controller.dart';
 
-class ChartPage extends StatelessWidget {
+class ChartPage extends StatefulWidget {
   const ChartPage({super.key});
 
   @override
+  State<ChartPage> createState() => _ChartPageState();
+}
+
+class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('차트'),
         ),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            buildHeader(),
-            TabBar(tabs: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Text('수입', style: Get.textTheme.bodyLarge,),
+        body: Obx(
+          () => Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              buildMonthIndicator(),
+              buildTabBar(),
+              Expanded(
+                child: TabBarView(children: [
+                  buildIncomeChart(),
+                  buildExpenseChart(),
+                ]),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Text('지출', style: Get.textTheme.bodyLarge,),
-              ),
-            ]),
-            Expanded(
-              child: TabBarView(children: [
-                buildIncomeChart(),
-                buildExpenseChart(),
-              ]),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  TabBar buildTabBar() {
+    return TabBar(tabs: [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Text(
+          '수입',
+          style: Get.textTheme.bodyLarge,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Text(
+          '지출',
+          style: Get.textTheme.bodyLarge,
+        ),
+      ),
+    ]);
   }
 
   Widget buildIncomeChart() {
@@ -47,7 +68,7 @@ class ChartPage extends StatelessWidget {
       child: Column(
         children: [
           TradePieChart(
-            colors: ChartPageController.to.colors,
+            colors: ChartPageController.to.incomeColors,
             chartData: ChartPageController.to.incomeChartData.value,
           ),
           ListView.builder(
@@ -68,7 +89,7 @@ class ChartPage extends StatelessWidget {
       child: Column(
         children: [
           TradePieChart(
-            colors: ChartPageController.to.colors,
+            colors: ChartPageController.to.expenseColors,
             chartData: ChartPageController.to.expenseChartData.value,
           ),
           ListView.builder(
@@ -84,16 +105,21 @@ class ChartPage extends StatelessWidget {
     );
   }
 
-  Widget buildHeader() {
+  Widget buildMonthIndicator() {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Flexible(
+          Flexible(
             flex: 1,
-            child: Align(alignment: Alignment.center, child: Icon(Icons.chevron_left, size: 20) // Icons.chevron_left
-                ),
+            child: Align(
+              alignment: Alignment.center,
+              child: IconButton(
+                onPressed: ChartPageController.to.goToPreviousMonth,
+                icon: const Icon(Icons.chevron_left, size: 20),
+              ),
+            ),
           ),
           Flexible(
             flex: 1,
@@ -102,7 +128,16 @@ class ChartPage extends StatelessWidget {
               style: Get.textTheme.bodyLarge,
             ),
           ),
-          const Flexible(flex: 1, child: Align(alignment: Alignment.center, child: Icon(Icons.chevron_right, size: 20))),
+          Flexible(
+            flex: 1,
+            child: Align(
+              alignment: Alignment.center,
+              child: IconButton(
+                onPressed: ChartPageController.to.goToNextMonth,
+                icon: const Icon(Icons.chevron_right, size: 20),
+              ),
+            ),
+          ),
         ],
       ),
     );

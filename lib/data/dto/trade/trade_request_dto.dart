@@ -14,14 +14,14 @@ class TradeRequestDto extends BaseModel {
   String? typeName;
   int? amount;
 
-  int? accountId;
-  String? accountName;
+  int? incomeOrExpenseAccountId;
+  String? incomeOrExpenseAccountName;
   int? assetAccountId;
   String? assetAccountName;
-  int? incomeAccountId;
-  String? incomeAccountName;
-  int? expenseAccountId;
-  String? expenseAccountName;
+  int? depositAccountId;
+  String? depositAccountName;
+  int? withdrawAccountId;
+  String? withdrawAccountName;
   String? content;
   String? memo;
 
@@ -33,14 +33,14 @@ class TradeRequestDto extends BaseModel {
         this.tradeType,
         this.typeName,
         this.amount,
-        this.accountId,
-        this.accountName,
+        this.incomeOrExpenseAccountId,
+        this.incomeOrExpenseAccountName,
         this.assetAccountId,
         this.assetAccountName,
-        this.incomeAccountId,
-        this.incomeAccountName,
-        this.expenseAccountId,
-        this.expenseAccountName,
+        this.depositAccountId,
+        this.depositAccountName,
+        this.withdrawAccountId,
+        this.withdrawAccountName,
         this.content,
         this.memo});
 
@@ -51,14 +51,14 @@ class TradeRequestDto extends BaseModel {
     tradeType = trade.tradeType;
     typeName = trade.typeName;
     amount = trade.amount;
-    accountId = trade.accountId;
-    accountName = trade.accountName;
+    incomeOrExpenseAccountId = trade.incomeOrExpenseAccountId;
+    incomeOrExpenseAccountName = trade.incomeOrExpenseAccountName;
     assetAccountId = trade.assetAccountId;
     assetAccountName = trade.assetAccountName;
-    incomeAccountId = trade.depositAccountId;
-    incomeAccountName = trade.depositAccountName;
-    expenseAccountId = trade.withdrawAccountId;
-    expenseAccountName = trade.withdrawAccountName;
+    depositAccountId = trade.depositAccountId;
+    depositAccountName = trade.depositAccountName;
+    withdrawAccountId = trade.withdrawAccountId;
+    withdrawAccountName = trade.withdrawAccountName;
     content = trade.content;
     memo = trade.memo;
   }

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
+import 'package:account_book/common/constant/size.dart';
 import 'package:account_book/data/model/chart_data.dart';
-import 'package:account_book/utilities/function/convert.dart';
+import 'package:account_book/utilities/function/converter.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,19 +35,23 @@ class TradePieChart extends StatelessWidget {
   List<PieChartSectionData> showingSections() {
     return List.generate(chartData.length, (index) {
       final fontSize = Get.theme.textTheme.bodyMedium?.fontSize;
-      const radius = 110.0;
+      const radius = 100.0;
 
       return PieChartSectionData(
-        color: colors.elementAt(index),
+        color: colors.elementAt(index % colors.length),
         value: chartData.elementAt(index).percent,
-        title: '${Converter.numberFormat(chartData.elementAt(index).amount)}원',
+        title: '${AppConverter.numberFormat(chartData.elementAt(index).amount)}원',
+        titleStyle: const TextStyle(letterSpacing: 0.2),
         radius: radius,
-        badgeWidget: Text(
-          chartData.elementAt(index).accountName,
-          style: TextStyle(fontSize: fontSize),
+        badgeWidget: Container(
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 35),
+          child: Text(
+            chartData.elementAt(index).accountName,
+            style: TextStyle(fontSize: fontSize, letterSpacing: CommonSize.letterSpacing),
+          ),
         ),
-        badgePositionPercentageOffset: 0.7,
-        titlePositionPercentageOffset: 1.25,
+        badgePositionPercentageOffset: 1.5,
+        titlePositionPercentageOffset: 1.5,
         showTitle: true,
       );
     });

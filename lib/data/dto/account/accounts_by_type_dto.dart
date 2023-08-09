@@ -24,9 +24,8 @@ class AccountsByTypeDto extends BaseModel {
 
   List<Account>? get incomeAccounts => _incomeAccounts;
 
-
-
   factory AccountsByTypeDto.fromJson(Map<String, dynamic> json) => _$AccountsByTypeDtoFromJson(json);
+
   @override
   Map<String, dynamic> toJson() => _$AccountsByTypeDtoToJson(this);
 }

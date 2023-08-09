@@ -12,24 +12,20 @@ class _AccountClient implements AccountClient {
   _AccountClient(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'http://192.168.0.6:8080';
-  }
+  });
 
   final Dio _dio;
 
   String? baseUrl;
 
   @override
-  Future<AccountsByTypeDto> findAccountsByAccountType(
-      {required accountRequestDto}) async {
+  Future<SingleResponse<AccountsByTypeDto>> findAccountsByAccountType() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(accountRequestDto.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<AccountsByTypeDto>(Options(
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleResponse<AccountsByTypeDto>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -41,7 +37,90 @@ class _AccountClient implements AccountClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = AccountsByTypeDto.fromJson(_result.data!);
+    final value = SingleResponse<AccountsByTypeDto>.fromJson(
+      _result.data!,
+      (json) => AccountsByTypeDto.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<ListResponse<Asset>> findAssetAmountList() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ListResponse<Asset>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/account/findAssetAmountList',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ListResponse<Asset>.fromJson(
+      _result.data!,
+      (json) => Asset.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<SingleResponse<AccountResponseDto>> saveAsset(
+      {required accountRequestDto}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(accountRequestDto.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleResponse<AccountResponseDto>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/account/save/asset',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SingleResponse<AccountResponseDto>.fromJson(
+      _result.data!,
+      (json) => AccountResponseDto.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<SingleResponse<AccountResponseDto>> deleteAsset(accountId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleResponse<AccountResponseDto>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/account/delete/asset/${accountId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SingleResponse<AccountResponseDto>.fromJson(
+      _result.data!,
+      (json) => AccountResponseDto.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 

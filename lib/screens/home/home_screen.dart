@@ -1,7 +1,7 @@
 import 'package:account_book/common/constant/colors.dart';
 import 'package:account_book/common/constant/size.dart';
 import 'package:account_book/common/navigationbar_enum.dart';
-import 'package:account_book/constants.dart';
+import 'package:account_book/common/log_config.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/screen/home_screen_controller.dart';
 import 'package:account_book/get/controller/page/calendar_page_controller.dart';
@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../common/widget/loader.dart';
+import 'page/asset_page.dart';
 import 'page/setting_page.dart';
 import 'page/trade_list_page.dart';
 
@@ -20,12 +22,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => SafeArea(
+    return Obx(
+      () => Loader(
+        child: SafeArea(
           child: buildScaffold(),
-        ));
+        ),
+      ),
+    );
   }
 
-  Scaffold buildScaffold() {
+  Widget buildScaffold() {
     return Scaffold(
       body: PageView(
         onPageChanged: HomeScreenController.to.onPageChanged,
@@ -34,9 +40,7 @@ class HomeScreen extends StatelessWidget {
           CalendarPage(),
           TradeListPage(),
           ChartPage(),
-          Center(
-            child: Text('Third Page'),
-          ),
+          AssetPage(),
           SettingPage(),
         ],
       ),
@@ -91,7 +95,7 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.all(2),
               child: Icon(Icons.list_alt),
             ),
-            label: '설정',
+            label: '자산',
           ),
           BottomNavigationBarItem(
             icon: Padding(

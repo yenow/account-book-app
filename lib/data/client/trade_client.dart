@@ -1,19 +1,23 @@
-
 import 'package:account_book/data/dto/trade/trade_request_dto.dart';
+import 'package:account_book/data/dto/trade/trade_response_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import '../dto/map_response.dart';
+import '../dto/single_response.dart';
 import '../model/trade.dart';
-import 'client_list.dart';
+import 'clients.dart';
 
 part 'trade_client.g.dart';
 
-@RestApi(baseUrl: baseUrl)
+@RestApi()
 abstract class TradeClient {
   factory TradeClient(Dio dio, {String baseUrl}) = _TradeClient;
 
   @POST('/trade/save')
-  Future<TradeRequestDto> save({
+  Future<SingleResponse<TradeResponseDto>> saveTrade({
     @Body() required TradeRequestDto trade,
-    // @Header("authorization") required String token
   });
+
+  @POST('/trade/findAllTradeOfUser')
+  Future<MapResponse<Trade>> findAllTradeOfUser();  // MapResponse<Trade>
 }

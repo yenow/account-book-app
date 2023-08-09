@@ -41,7 +41,7 @@ class TradeTypeRadioButton extends StatelessWidget {
         selectedColor: Get.theme.colorScheme.primary,
         unSelectedColor: Get.theme.colorScheme.onBackground,
         // disabledColor: Get.theme.colorScheme.onPrimary,
-        textStyle: const TextStyle(fontSize: 16),
+        textStyle: TextStyle(fontSize: Get.textTheme.bodyMedium!.fontSize),
       ),
       radioButtonValue: TradesScreenController.to.radioButtonValue,
     );

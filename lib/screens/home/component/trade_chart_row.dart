@@ -1,5 +1,6 @@
+import 'package:account_book/common/constant/size.dart';
 import 'package:account_book/data/model/chart_data.dart';
-import 'package:account_book/utilities/function/convert.dart';
+import 'package:account_book/utilities/function/converter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +23,11 @@ class TradeChartRow extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Text('${Converter.numberFormat(chartData.amount)}원', textAlign: TextAlign.right, style: TextStyle(fontSize: Get.textTheme.bodyLarge?.fontSize),),
+              child: Text(
+                '${AppConverter.numberFormat(chartData.amount)}원',
+                textAlign: TextAlign.right,
+                style: TextStyle(fontSize: Get.textTheme.bodyLarge?.fontSize, letterSpacing: CommonSize.letterSpacing),
+              ),
             ),
           ),
         ],
