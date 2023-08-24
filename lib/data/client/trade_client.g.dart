@@ -46,6 +46,33 @@ class _TradeClient implements TradeClient {
   }
 
   @override
+  Future<SingleResponse<TradeResponseDto>> deleteTrade(
+      {required tradeId}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = tradeId;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleResponse<TradeResponseDto>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/trade/delete',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SingleResponse<TradeResponseDto>.fromJson(
+      _result.data!,
+      (json) => TradeResponseDto.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<MapResponse<Trade>> findAllTradeOfUser() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

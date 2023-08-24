@@ -23,12 +23,20 @@ abstract class AccountClient {
   @POST('/account/findAssetAmountList')
   Future<ListResponse<Asset>> findAssetAmountList();
 
+  // 자산 계정 등록
   @POST('/account/save/asset')
   Future<SingleResponse<AccountResponseDto>> saveAsset({
     @Body() required AccountRequestDto accountRequestDto,
   });
 
-  @POST('/account/delete/asset/{accountId}')
+  // 자산 계정 등록
+  @POST('/account/save')
+  Future<SingleResponse<AccountResponseDto>> saveAccount({
+    @Body() required AccountRequestDto accountRequestDto,
+  });
+
+  // 자산 계정 삭제
+  @POST('/account/delete/{accountId}')
   Future<SingleResponse<AccountResponseDto>> deleteAsset(
     @Path('accountId') int accountId,
   );

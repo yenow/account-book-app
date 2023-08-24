@@ -8,6 +8,7 @@ var log = Logger(
     printTime: true,
     printEmojis: false,
     excludeBox: {},
+    lineLength: 500,
   ),
 );
 

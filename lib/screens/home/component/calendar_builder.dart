@@ -112,25 +112,26 @@ Widget? selectedBuilder(BuildContext context, DateTime day, DateTime focusedDay)
 // 마커
 Widget? markerBuilder(BuildContext context, DateTime day, events) {
   if (events.isNotEmpty) {
-    int? income = 0;
-    int? expense = 0;
-    int? transfer = 0;
+    int income = 0;
+    int expense = 0;
+    int transfer = 0;
     for (Trade trade in events) {
       if (trade.tradeType == TradeType.income.name) {
-        income = income! + trade.amount!;
+        income = income + trade.amount!;
       } else if (trade.tradeType == 'expense') {
-        expense = expense! + trade.amount!;
+        expense = expense + trade.amount!;
       } else if (trade.tradeType == 'transfer') {
-        transfer = transfer! + trade.amount!;
+        transfer = transfer + trade.amount!;
       }
     }
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        income == 0 ? Container() : buildTradeMarker(income, CommonColors.incomeColor, const EdgeInsets.fromLTRB(0, 25, 0, 0)),
-        expense == 0 ? Container() : buildTradeMarker(expense, CommonColors.expenseColor, const EdgeInsets.fromLTRB(0, 0, 0, 0)),
-        transfer == 0 ? Container() : buildTradeMarker(transfer, CommonColors.transferColor, const EdgeInsets.fromLTRB(0, 0, 0, 0)),
+        income == 0 ? Container(height: 10) : buildTradeMarker(income, CommonColors.incomeColor),
+        expense == 0 ? Container(height: 10) : buildTradeMarker(expense, CommonColors.expenseColor),
+        transfer == 0 ? Container(height: 10) : buildTradeMarker(transfer, CommonColors.transferColor),
+        const SizedBox(height: 3,)
       ],
     );
   }
@@ -139,12 +140,13 @@ Widget? markerBuilder(BuildContext context, DateTime day, events) {
   return null;
 }
 
-Container buildTradeMarker(int? amount, Color? color, EdgeInsetsGeometry? padding) {
+Container buildTradeMarker(int amount, Color? color) {
   return Container(
-    padding: padding, //  const EdgeInsets.fromLTRB(0, 25, 0, 0),
+    height: 10,
+    // margin: margin,
     alignment: Alignment.centerRight,
     child: AutoSizeText(
-      AppConverter.numberFormat(amount!),
+      AppConverter.numberFormat(amount),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       minFontSize: 6,

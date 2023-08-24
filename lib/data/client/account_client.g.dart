@@ -99,6 +99,34 @@ class _AccountClient implements AccountClient {
   }
 
   @override
+  Future<SingleResponse<AccountResponseDto>> saveAccount(
+      {required accountRequestDto}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(accountRequestDto.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SingleResponse<AccountResponseDto>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/account/save',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SingleResponse<AccountResponseDto>.fromJson(
+      _result.data!,
+      (json) => AccountResponseDto.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<SingleResponse<AccountResponseDto>> deleteAsset(accountId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -112,7 +140,7 @@ class _AccountClient implements AccountClient {
     )
             .compose(
               _dio.options,
-              '/account/delete/asset/${accountId}',
+              '/account/delete/${accountId}',
               queryParameters: queryParameters,
               data: _data,
             )

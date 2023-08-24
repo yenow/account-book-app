@@ -6,12 +6,14 @@ import 'package:account_book/get/controller/page/calendar_page_controller.dart';
 import 'package:account_book/screens/home/component/trade_history_row.dart';
 import 'package:account_book/screens/home/component/calendar_builder.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../common/constant/size.dart';
+import '../../../get/controller/screen/home_screen_controller.dart';
 import '../../../utilities/function/converter.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -33,6 +35,7 @@ class _CalendarPageState extends State<CalendarPage> with AutomaticKeepAliveClie
       appBar: AppBar(
         title: const Text('가계부'),
       ),
+      floatingActionButton: floatingActionButton(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -48,47 +51,58 @@ class _CalendarPageState extends State<CalendarPage> with AutomaticKeepAliveClie
     );
   }
 
-  Widget buildMonthIndicator() {
-    return Container(
-      // color: Get.theme.colorScheme.surface,
-      child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            flex: 1,
-            fit: FlexFit.tight,
-            child: IconButton(
-              icon: const Icon(Icons.chevron_left),
-              onPressed: CalendarPageController.to.goToPreviousMonth,
-              style: ButtonStyle(
-                fixedSize: MaterialStateProperty.all(const Size(20, 20)),
-                padding: MaterialStateProperty.all(EdgeInsets.zero),
-              ),
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            fit: FlexFit.tight,
-            child: Text(
-              '${CalendarPageController.to.selectedDay.value.year}년 ${CalendarPageController.to.selectedDay.value.month}월',
-              textAlign: TextAlign.center,
-              style: Get.textTheme.bodyLarge,
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            fit: FlexFit.tight,
-            child: IconButton(
-              icon: const Icon(Icons.chevron_right),
-              onPressed: CalendarPageController.to.goToNextMonth,
-              style: ButtonStyle(
-                fixedSize: MaterialStateProperty.all(const Size(20, 20)),
-                padding: MaterialStateProperty.all(EdgeInsets.zero),
-              ),
-            ),
-          ),
-        ],
+  FloatingActionButton? floatingActionButton() {
+    return FloatingActionButton(
+      onPressed: () async {
+        Trade trade = Trade(
+          tradeDate: AppConverter.toDayString(CalendarPageController.to.selectedDay.value),
+        );
+        await CalendarPageController.to.goToTradeScreen(trade);
+      },
+      child: const Icon(
+        Icons.edit,
       ),
+    );
+  }
+
+  Widget buildMonthIndicator() {
+    return Row(
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          flex: 1,
+          fit: FlexFit.tight,
+          child: IconButton(
+            icon: const Icon(FluentIcons.chevron_left_20_regular),
+            onPressed: CalendarPageController.to.goToPreviousMonth,
+            style: ButtonStyle(
+              fixedSize: MaterialStateProperty.all(const Size(20, 20)),
+              padding: MaterialStateProperty.all(EdgeInsets.zero),
+            ),
+          ),
+        ),
+        Flexible(
+          flex: 1,
+          fit: FlexFit.tight,
+          child: Text(
+            '${CalendarPageController.to.selectedDay.value.year}년 ${CalendarPageController.to.selectedDay.value.month}월',
+            textAlign: TextAlign.center,
+            style: Get.textTheme.bodyLarge,
+          ),
+        ),
+        Flexible(
+          flex: 1,
+          fit: FlexFit.tight,
+          child: IconButton(
+            icon: const Icon(FluentIcons.chevron_right_20_regular),
+            onPressed: CalendarPageController.to.goToNextMonth,
+            style: ButtonStyle(
+              fixedSize: MaterialStateProperty.all(const Size(20, 20)),
+              padding: MaterialStateProperty.all(EdgeInsets.zero),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -96,7 +110,7 @@ class _CalendarPageState extends State<CalendarPage> with AutomaticKeepAliveClie
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
       decoration: BoxDecoration(
-        // color: Get.theme.colorScheme.surface,
+        // color: Get.theme.colorScheme.tertiary,
         border: Border.all(
           width: 0.1,
           color: Get.theme.colorScheme.outline,
@@ -147,7 +161,10 @@ class _CalendarPageState extends State<CalendarPage> with AutomaticKeepAliveClie
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Text('지출', style: TextStyle(color: CommonColors.expenseColor)),
+                    const Text(
+                      '지출',
+                      style: TextStyle(color: CommonColors.expenseColor),
+                    ),
                     AutoSizeText(
                       '${AppConverter.numberFormat(TradeController.to.calculateTotalExpense())}원',
                       style: TextStyle(color: CommonColors.expenseColor, letterSpacing: CommonSize.letterSpacing),
@@ -212,12 +229,17 @@ class _CalendarPageState extends State<CalendarPage> with AutomaticKeepAliveClie
 
   // 당일 거래 내역
   Widget buildTradeHistory() {
-    return ListView(shrinkWrap: true, physics: const NeverScrollableScrollPhysics(), children: [
-      for (Trade trade in TradeController.to.tradeListMap.value[AppConverter.toDayString(CalendarPageController.to.focusedDay.value)] ?? [])
-        TradeHistoryRow(
-          trade: trade,
-        )
-    ]);
+    return SingleChildScrollView(
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          for (Trade trade in TradeController.to.tradeListMap.value[AppConverter.toDayString(CalendarPageController.to.focusedDay.value)] ?? [])
+            TradeHistoryRow(
+              trade: trade,
+            )
+        ],
+      ),
+    );
   }
 
   Container buildHeadRow() {

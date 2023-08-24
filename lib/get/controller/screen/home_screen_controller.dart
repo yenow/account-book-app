@@ -1,6 +1,8 @@
 import 'package:account_book/common/constant/format.dart';
 import 'package:account_book/common/log_config.dart';
 import 'package:account_book/data/model/trade.dart';
+import 'package:account_book/get/controller/page/asset_page_controller.dart';
+import 'package:account_book/get/controller/page/chart_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,15 +27,10 @@ class HomeScreenController extends GetxController {
   }
 
   /// 가계부 등록 페이지로 이동
-  void goToSingleTradeRegisterScreen() async {
-    log.d('goToAccountDetailScreen() : 가계부 등록 페이지로 이동');
-
+  void goToTradeRegisterScreen() async {
     Trade trade = Trade(
       tradeDate: AppConverter.toDayString(CalendarPageController.to.selectedDay.value),
     );
-    String result = await Get.toNamed(AppRoute.tradeScreen, arguments: trade, preventDuplicates: true);
-    // if (result == 'Y') {
-    //   TradeController.to.findTrades();
-    // }
+    await CalendarPageController.to.goToTradeScreen(trade);
   }
 }

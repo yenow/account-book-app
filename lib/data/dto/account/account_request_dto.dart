@@ -16,9 +16,19 @@ class AccountRequestDto extends BaseModel {
   int? amount;
   int? level;
   AssetType? assetType;
+  String? accountType;
 
   AccountRequestDto(
-      {this.userId, this.userKey, this.accountId, this.accountName, this.groupAccountId, this.groupAccountName, this.amount, this.level, this.assetType});
+      {this.userId,
+      this.userKey,
+      this.accountId,
+      this.accountName,
+      this.groupAccountId,
+      this.groupAccountName,
+      this.amount,
+      this.level,
+      this.assetType,
+      this.accountType});
 
   factory AccountRequestDto.fromJson(Map<String, dynamic> json) => _$AccountRequestDtoFromJson(json);
 

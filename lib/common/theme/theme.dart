@@ -40,15 +40,15 @@ ThemeData theme() => ThemeData(
         secondary: const Color(0xFFFDA8AA),
         // 두번째 메인 컬러
         onSecondary: const Color(0xFFFFFFFF),
-        tertiary: const Color(0xFFE4E724),
         // 세번째 메인 컬러
-        outline: outLineColor,
+        tertiary: canvasColor,
         //  기본선 색깔
-        outlineVariant: outlineVariantColor,
+        outline: outLineColor,
         //  기본선 강조 색깔
+        outlineVariant: outlineVariantColor,
 
-        surface: canvasColor,
-        onSurface: outLineColor2,
+        surface: outLineColor2,
+        onSurface: onBackgroundColor,
         background: backgroundColor,
         onBackground: onBackgroundColor,
         // TextForm outline 색상

@@ -1,4 +1,4 @@
-import 'package:account_book/common/widget/dialog.dart';
+import 'package:account_book/common/widget/dialog/dialog.dart';
 import 'package:account_book/get/controller/user_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';

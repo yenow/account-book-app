@@ -35,7 +35,7 @@ class AppRoute {
       toRoot(),
       toHomeScreen(),
       toLoginScreen(),
-      getTradeScreen(),
+      toTradeScreen(),
       toIncomeCategoryManagement(),
       toExpenseCategoryManagement(),
       toAssetScreen(),
@@ -58,8 +58,10 @@ class AppRoute {
     return GetPage(
       name: incomeCategoryManagement,
       page: () {
-        return const IncomeCategoryManagementScreen();
+        return IncomeCategoryManagementScreen();
       },
+
+      transition: Transition.downToUp,
       curve: Curves.ease,
       popGesture: true,
       transitionDuration: const Duration(milliseconds: 550),
@@ -70,8 +72,9 @@ class AppRoute {
     return GetPage(
       name: expenseCategoryManagement,
       page: () {
-        return const ExpenseCategoryManagementScreen();
+        return ExpenseCategoryManagementScreen();
       },
+      transition: Transition.downToUp,
       curve: Curves.ease,
       popGesture: true,
       transitionDuration: const Duration(milliseconds: 550),
@@ -118,7 +121,7 @@ class AppRoute {
     });
   }
 
-  static GetPage<dynamic> getTradeScreen() {
+  static GetPage<dynamic> toTradeScreen() {
     return GetPage(
       name: tradeScreen,
       binding: TradeScreenBinding(),
@@ -132,7 +135,7 @@ class AppRoute {
         TradesScreenController.to.tradeType(trade.tradeType ?? TradeType.expense.name);
 
         TradesScreenController.to.trade = trade;
-        TradesScreenController.to.dateController.text = trade.tradeDate!;
+        TradesScreenController.to.dateController.text = AppConverter.toDayDashString(AppConverter.toDateTime(trade.tradeDate!));
         TradesScreenController.to.amountController.text = AppConverter.numberFormat(trade.amount ?? 0);
         TradesScreenController.to.incomeExpenseAccountController.text = trade.typeName ?? '';
         TradesScreenController.to.assetController.text = trade.incomeOrExpenseAccountName ?? '';

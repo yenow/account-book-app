@@ -60,7 +60,7 @@ class TradeScreen extends StatelessWidget {
             icon: const Icon(
               Icons.save,
             ),
-            onPressed: trade.tradeId == null ? TradesScreenController.to.saveTrade : TradesScreenController.to.updateTrade,
+            onPressed: TradesScreenController.to.saveTrade,
             style: ButtonStyle(
                 padding: MaterialStateProperty.all(EdgeInsets.zero)
             ),

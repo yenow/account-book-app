@@ -15,11 +15,16 @@ class TradeController extends GetxController {
   final tradeListMap = Rx<Map<String, List<Trade>>>({});
 
   /// 전체 거래 리스트 가져오기
-  Future<void> findTrades() async {
+  Future<void> initTrades() async {
     await tradeClient.findAllTradeOfUser().then((MapResponse<Trade> value) {
       tradeListMap(value.data);
       log.i('가계부 거래 목록 :\n ${tradeListMap.value}');
     });
+  }
+
+  // 거래 리스트
+  void changeTradeListMap(Map<String, List<Trade>> map) {
+    tradeListMap(map);
   }
 
   bool isSameDay(Trade account1, Trade account2) {

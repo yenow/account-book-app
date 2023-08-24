@@ -1,5 +1,6 @@
 import 'package:account_book/screens/home/component/trade_chart_row.dart';
 import 'package:account_book/screens/home/component/trade_pie_chart.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -76,7 +77,11 @@ class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixi
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return TradeChartRow(chartData: ChartPageController.to.incomeChartData.value.elementAt(index));
+              return TradeChartRow(
+                chartData: ChartPageController.to.incomeChartData.value.elementAt(index),
+                index: index,
+                colors: ChartPageController.to.incomeColors,
+              );
             },
           )
         ],
@@ -97,7 +102,11 @@ class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixi
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return TradeChartRow(chartData: ChartPageController.to.expenseChartData.value.elementAt(index));
+              return TradeChartRow(
+                chartData: ChartPageController.to.expenseChartData.value.elementAt(index),
+                index: index,
+                colors: ChartPageController.to.expenseColors,
+              );
             },
           )
         ],
@@ -117,7 +126,7 @@ class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixi
               alignment: Alignment.center,
               child: IconButton(
                 onPressed: ChartPageController.to.goToPreviousMonth,
-                icon: const Icon(Icons.chevron_left, size: 20),
+                icon: const Icon(FluentIcons.chevron_left_20_regular, size: 20),
               ),
             ),
           ),
@@ -134,7 +143,7 @@ class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixi
               alignment: Alignment.center,
               child: IconButton(
                 onPressed: ChartPageController.to.goToNextMonth,
-                icon: const Icon(Icons.chevron_right, size: 20),
+                icon: const Icon(FluentIcons.chevron_right_20_regular, size: 20),
               ),
             ),
           ),

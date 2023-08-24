@@ -12,7 +12,7 @@ class AssetPageController extends GetxController {
   final assets = Rx<List<Asset>>([]);
 
   /// 자산 목록 조회
-  Future<void> findAssets() async {
+  Future<void> initAssetListSumAmount() async {
     await accountClient.findAssetAmountList().then((ListResponse<Asset> value) {
       List<Asset>? assetList = value.data;
 

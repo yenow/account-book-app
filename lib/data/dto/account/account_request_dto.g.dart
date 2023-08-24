@@ -17,6 +17,7 @@ AccountRequestDto _$AccountRequestDtoFromJson(Map<String, dynamic> json) =>
       amount: json['amount'] as int?,
       level: json['level'] as int?,
       assetType: $enumDecodeNullable(_$AssetTypeEnumMap, json['assetType']),
+      accountType: json['accountType'] as String?,
     );
 
 Map<String, dynamic> _$AccountRequestDtoToJson(AccountRequestDto instance) =>
@@ -30,6 +31,7 @@ Map<String, dynamic> _$AccountRequestDtoToJson(AccountRequestDto instance) =>
       'amount': instance.amount,
       'level': instance.level,
       'assetType': _$AssetTypeEnumMap[instance.assetType],
+      'accountType': instance.accountType,
     };
 
 const _$AssetTypeEnumMap = {

@@ -5,6 +5,7 @@ import 'package:account_book/get/controller/page/setting_page_controller.dart';
 import 'package:account_book/get/controller/user_controller.dart';
 import 'package:account_book/route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -44,59 +45,35 @@ class SettingPage extends StatelessWidget {
           headerRow('계정'),
           googleAccount(),
           headerRow('기본'),
-          Container(
-            decoration: BoxDecoration(
-              color: Get.theme.colorScheme.surface,
-              border: Border.all(width: 0.2, color: Get.theme.colorScheme.outline),
-            ),
-            child: ListView(shrinkWrap: true, children: [
-              SettingRow(
-                text: '택스트',
-                icon: const Icon(Icons.add_circle_outline),
-                onTap: () {},
-              ),
-              SettingRow(
-                text: '택스트',
-                icon: const Icon(Icons.add_circle_outline),
-                onTap: () {},
-              ),
-            ]),
-          ),
+          basicMenu(),
           headerRow('분류/자산'),
-          SizedBox(
-            width: 100,
-            height: 30,
-            child: ElevatedButton(
-              child: const Text('스낵바 테스트'),
-              onPressed: () {
-                Get.snackbar(
-                  '타이틀',
-                  '메세지 입니다.',
-                  barBlur: 3.0,
-                  borderWidth: 0.2,
-                  borderColor: Get.theme.colorScheme.outline,
-                  backgroundColor: Get.theme.colorScheme.background,
-                  colorText: Get.theme.colorScheme.onBackground,
-                );
-              },
-            ),
-          ),
-          SizedBox(
-            width: 100,
-            height: 30,
-            child: ElevatedButton(
-              child: const Text('circle indicator'),
-              onPressed: () async {
-                dlog.i('start');
-                IsLoadingController.to.isLoading(true);
-                await Future.delayed(const Duration(seconds: 2));
-                IsLoadingController.to.isLoading(false);
-                dlog.i('end');
-              },
-            ),
-          ),
+          assetMenu(),
+          // snackBarTest(),
+          // circleIndicatorTest(),
         ],
       ),
+    );
+  }
+
+  /// 기본 메뉴 목록
+  Container basicMenu() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Get.theme.colorScheme.tertiary,
+        border: Border.all(width: 0.2, color: Get.theme.colorScheme.outline),
+      ),
+      child: ListView(shrinkWrap: true, children: [
+        SettingRow(
+          text: '공지사항',
+          icon: const Icon(FluentIcons.alert_20_regular),
+          onTap: () {},
+        ),
+        SettingRow(
+          text: '다크모드',
+          icon: const Icon(FluentIcons.color_16_regular),
+          onTap: () {},
+        ),
+      ]),
     );
   }
 
@@ -105,7 +82,7 @@ class SettingPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
-        color: Get.theme.colorScheme.surface,
+        color: Get.theme.colorScheme.tertiary,
         border: Border.all(width: 0.2, color: Get.theme.colorScheme.outline),
       ),
       child: Row(
@@ -119,7 +96,7 @@ class SettingPage extends StatelessWidget {
                   tooltip: true,
                 )
               : const Icon(
-                  CupertinoIcons.person_circle_fill,
+                  FluentIcons.person_circle_20_filled,
                   size: 40,
                 ),
           Padding(
@@ -170,4 +147,73 @@ class SettingPage extends StatelessWidget {
       ),
     );
   }
+
+  // 분류 자산
+  Container assetMenu() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Get.theme.colorScheme.tertiary,
+        border: Border.all(width: 0.2, color: Get.theme.colorScheme.outline),
+      ),
+      child: ListView(shrinkWrap: true, children: [
+        SettingRow(
+          text: '수입 관리',
+          icon: const Icon(FluentIcons.channel_add_20_regular),
+          onTap: () async {
+            Get.toNamed(AppRoute.incomeCategoryManagement);
+          },
+        ),
+        SettingRow(
+          text: '지출 관리',
+          icon: const Icon(FluentIcons.channel_subtract_20_regular),
+          onTap: () {
+            Get.toNamed(AppRoute.expenseCategoryManagement);
+          },
+        ),
+        SettingRow(
+          text: '자산 관리',
+          icon: const Icon(FluentIcons.channel_arrow_left_20_regular),
+          onTap: () {},
+        ),
+      ]),
+    );
+  }
+}
+
+SizedBox snackBarTest() {
+  return SizedBox(
+    width: 100,
+    height: 30,
+    child: ElevatedButton(
+      child: const Text('스낵바 테스트'),
+      onPressed: () {
+        Get.snackbar(
+          '타이틀',
+          '메세지 입니다.',
+          barBlur: 3.0,
+          borderWidth: 0.2,
+          borderColor: Get.theme.colorScheme.outline,
+          backgroundColor: Get.theme.colorScheme.background,
+          colorText: Get.theme.colorScheme.onBackground,
+        );
+      },
+    ),
+  );
+}
+
+SizedBox circleIndicatorTest() {
+  return SizedBox(
+    width: 100,
+    height: 30,
+    child: ElevatedButton(
+      child: const Text('circle indicator'),
+      onPressed: () async {
+        dlog.i('start');
+        IsLoadingController.to.isLoading(true);
+        await Future.delayed(const Duration(seconds: 2));
+        IsLoadingController.to.isLoading(false);
+        dlog.i('end');
+      },
+    ),
+  );
 }

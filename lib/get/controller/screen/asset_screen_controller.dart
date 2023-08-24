@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/widget/bottom_sheet.dart';
-import '../../../common/widget/dialog.dart';
+import '../../../common/widget/dialog/dialog.dart';
 import '../../../common/log_config.dart';
 import '../../../data/client/clients.dart';
 import '../../../data/model/account.dart';

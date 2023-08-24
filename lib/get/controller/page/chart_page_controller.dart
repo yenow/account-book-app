@@ -26,17 +26,17 @@ class ChartPageController extends GetxController {
   /// 이전 월로 변경
   void goToPreviousMonth() async {
     selectedDay(DateTime(selectedDay.value.year, selectedDay.value.month - 1, selectedDay.value.day));
-    await findChartData();
+    await initChartData();
   }
 
   /// 다음 월로 변경
   void goToNextMonth() async {
     selectedDay(DateTime(selectedDay.value.year, selectedDay.value.month + 1, selectedDay.value.day));
-    await findChartData();
+    await initChartData();
   }
 
   /// 월 차트 데이터 조회
-  Future<void> findChartData() async {
+  Future<void> initChartData() async {
 
     chartClient.findChartData(
       chartRequestDto: ChartRequestDto(
@@ -49,28 +49,22 @@ class ChartPageController extends GetxController {
   }
 
   final incomeColors = [
-    const Color(0xFFE5D1FA),
-    const Color(0xFFAAC4FF),
-    const Color(0xFF9BE8D8),
-    const Color(0xFFECF2FF),
-    const Color(0xFFE3DFFD),
-    const Color(0xFFFFF4D2),
-    const Color(0xFFF7C8E0),
-    const Color(0xFFF7C8E0),
-    const Color(0xFFF7C8E0),
-    const Color(0xFFF7C8E0),
+    const Color(0xFFD3B2FF),
+    const Color(0xFFFF9FBB),
+    const Color(0xFFB4FFEE),
+    const Color(0xFFAAC6FF),
+    const Color(0xFFC8C0FF),
+    const Color(0xFFFFEFC1),
+    const Color(0xFFFFB0DA),
   ];
 
   final expenseColors = [
-    const Color(0xFF9BE8D8),
-    const Color(0xFFAAC4FF),
-    const Color(0xFFE5D1FA),
-    const Color(0xFFECF2FF),
-    const Color(0xFFE3DFFD),
+    const Color(0xFFA7FFEC),
+    const Color(0xFFA1D6FF),
+    const Color(0xFFD6ABFF),
+    const Color(0xFFABD6FF),
+    const Color(0xFFBCB1FF),
     const Color(0xFFFFF4D2),
-    const Color(0xFFF7C8E0),
-    const Color(0xFFF7C8E0),
-    const Color(0xFFF7C8E0),
     const Color(0xFFF7C8E0),
   ];
 }

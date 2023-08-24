@@ -8,14 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../common/widget/dialog.dart';
+import '../../../common/widget/dialog/dialog.dart';
 import '../../../common/log_config.dart';
 import '../../../data/client/clients.dart';
+import '../../../data/dto/map_response.dart';
 import '../../../data/dto/single_response.dart';
 import '../../../data/dto/trade/trade_response_dto.dart';
 import '../../../data/model/account.dart';
 import '../../../screens/trade/component/income_expense_account_bottom_sheet.dart';
 import '../../../utilities/function/converter.dart';
+import '../page/asset_page_controller.dart';
+import '../page/chart_page_controller.dart';
 
 class TradesScreenController extends GetxController {
   static TradesScreenController get to => Get.find();
@@ -50,17 +53,17 @@ class TradesScreenController extends GetxController {
       tradeRequestDto.userId = UserController.to.user.value.userId;
 
       tradeClient.saveTrade(trade: tradeRequestDto).then((SingleResponse<TradeResponseDto> value) async {
-        await TradeController.to.findTrades();
-        dlog.i(value);
-        Get.back(result: 'Y');
-      });
-    }
-  }
+        Map<String, List<Trade>> tradeListMap = {};
+        await tradeClient.findAllTradeOfUser().then((MapResponse<Trade> value) {
+          tradeListMap = value.data;
+        });
 
-  // 거래 수정
-  void updateTrade() {
-    if (formKey.currentState!.validate()) {
-      log.i('updateTrade');
+        await ChartPageController.to.initChartData();
+        await AssetPageController.to.initAssetListSumAmount();
+        TradeController.to.changeTradeListMap(tradeListMap);
+
+        Get.back(result: trade.tradeDate);
+      });
     }
   }
 
@@ -73,7 +76,7 @@ class TradesScreenController extends GetxController {
     bool confirm = await deleteDialog();
 
     if (confirm) {
-      log.i('deleteTrade');
+      tradeClient.deleteTrade(tradeId: trade.tradeId!);
     }
   }
 
@@ -87,10 +90,8 @@ class TradesScreenController extends GetxController {
     TradesScreenController.to.tradeType(value);
   }
 
-  //region 날짜
   // 날짜 선택
   void onTapToDateInput() async {
-    log.i('onTapToDateInput');
     _selectDate(Get.context!);
     validate();
   }
@@ -106,7 +107,7 @@ class TradesScreenController extends GetxController {
 
     if (result != null) {
       dateController.text = DateFormat('yyyy.MM.dd').format(result);
-      trade.tradeDate = dateController.text;
+      trade.tradeDate = DateFormat('yyyyMMdd').format(result);
     }
   }
 
@@ -120,10 +121,7 @@ class TradesScreenController extends GetxController {
     return null;
   }
 
-  //endregion
-
-  //region 분류(계정)
-  // 분류 선택
+  // 분류(계정) 선택
   void onTapToIncomeExpenseAccountInput() async {
     TradeType pTradeType;
     List<Account> pAccounts;
@@ -172,10 +170,6 @@ class TradesScreenController extends GetxController {
     return null;
   }
 
-  //endregion
-
-  //region 금액
-
   // 금액 변경시
   void onChangedToAmountInput(String value) {
     if (value != '') {
@@ -202,10 +196,6 @@ class TradesScreenController extends GetxController {
 
     return null;
   }
-
-  //endregion
-
-  //region 자산
 
   // 자산 선택시
   void onTapToAssetInput() async {
@@ -238,8 +228,6 @@ class TradesScreenController extends GetxController {
 
     return null;
   }
-
-  //endregion
 
   // 입금 선택
   void onTapToDepositAssetInput() async {

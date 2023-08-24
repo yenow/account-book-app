@@ -38,27 +38,27 @@ class HomeScreen extends StatelessWidget {
         controller: HomeScreenController.to.pageController,
         children: const <Widget>[
           CalendarPage(),
-          TradeListPage(),
+          // SearchPage(),
           ChartPage(),
           AssetPage(),
           SettingPage(),
         ],
       ),
-      floatingActionButton: floatingActionButton(),
+      // floatingActionButton: floatingActionButton(),
       bottomNavigationBar: buildNavigationBar(),
     );
   }
 
-  FloatingActionButton? floatingActionButton() {
-    return HomeScreenController.to.selectIndex.value == NavigationBarEnum.home.index
-        ? FloatingActionButton(
-            onPressed: HomeScreenController.to.goToSingleTradeRegisterScreen,
-            child: const Icon(
-              Icons.edit,
-            ),
-          )
-        : null;
-  }
+  // FloatingActionButton? floatingActionButton() {
+  //   return HomeScreenController.to.selectIndex.value == NavigationBarEnum.home.index
+  //       ? FloatingActionButton(
+  //           onPressed: HomeScreenController.to.goToTradeRegisterScreen,
+  //           child: const Icon(
+  //             Icons.edit,
+  //           ),
+  //         )
+  //       : null;
+  // }
 
   /// 네비게이션바
   Widget buildNavigationBar() {
@@ -76,13 +76,13 @@ class HomeScreen extends StatelessWidget {
             ),
             label: '홈',
           ),
-          BottomNavigationBarItem(
+          /*BottomNavigationBarItem(
             icon: Padding(
               padding: EdgeInsets.all(2),
               child: Icon(Icons.find_in_page),
             ),
             label: '리스트',
-          ),
+          ),*/
           BottomNavigationBarItem(
             icon: Padding(
               padding: EdgeInsets.all(2),

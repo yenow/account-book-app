@@ -16,17 +16,15 @@ class TradePieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.1 / 1,
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: PieChart(
-          PieChartData(
-            borderData: FlBorderData(
-              show: false,
-            ),
-            sectionsSpace: 0,
-            centerSpaceRadius: 0,
-            sections: showingSections(),
+      child: PieChart(
+        PieChartData(
+          borderData: FlBorderData(
+            // show: false,
           ),
+          sectionsSpace: 1,
+          centerSpaceRadius: 1,
+          sections: showingSections(),
+          startDegreeOffset: 10,
         ),
       ),
     );
@@ -50,8 +48,8 @@ class TradePieChart extends StatelessWidget {
             style: TextStyle(fontSize: fontSize, letterSpacing: CommonSize.letterSpacing),
           ),
         ),
-        badgePositionPercentageOffset: 1.5,
-        titlePositionPercentageOffset: 1.5,
+        badgePositionPercentageOffset: 1.35,
+        titlePositionPercentageOffset: 1.35,
         showTitle: true,
       );
     });

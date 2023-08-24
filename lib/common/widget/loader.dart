@@ -34,7 +34,7 @@ class Loader extends StatelessWidget {
               child: LoadingIndicator(
                 strokeWidth: 1,
                 indicatorType: Indicator.ballPulseSync,
-                colors: [CommonColors.red1, CommonColors.blue1, CommonColors.purple1],
+                colors: [CommonColors.red, CommonColors.blue, CommonColors.purple],
                 backgroundColor: Colors.transparent,
                 pathBackgroundColor: Get.theme.colorScheme.onPrimary,
               ),

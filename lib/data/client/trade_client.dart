@@ -18,6 +18,12 @@ abstract class TradeClient {
     @Body() required TradeRequestDto trade,
   });
 
+  @POST('/trade/delete')
+  Future<SingleResponse<TradeResponseDto>> deleteTrade({
+    @Body() required int tradeId,
+  });
+
+
   @POST('/trade/findAllTradeOfUser')
   Future<MapResponse<Trade>> findAllTradeOfUser();  // MapResponse<Trade>
 }
