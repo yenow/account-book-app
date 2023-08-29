@@ -5,26 +5,53 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:account_book/common/log_config.dart';
+import 'package:account_book/data/client/clients.dart';
+import 'package:account_book/data/client/login_client.dart';
+import 'package:account_book/data/dto/login/login_request.dart';
+import 'package:account_book/data/dto/login/login_response.dart';
+import 'package:account_book/data/dto/single_response.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:account_book/main.dart';
 
-void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+void main() async {
+  test('login', () async {
+    Dio testDio = addInterceptor(Dio(
+      BaseOptions(
+        baseUrl: 'http://192.168.0.6:8080',
+        contentType: Headers.jsonContentType,
+        responseType: ResponseType.json,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+        validateStatus: (_) => true,
+      ),
+    ));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await testDio.get('/test/api');
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    LoginClient loginClient = LoginClient(testDio);
+    loginClient.login(
+      loginRequest: LoginRequest(
+        name: '윤신영',
+        email: 'nalraysy3@gmail.com',
+        accessToken: '',
+        photoUrl: '',
+      ),
+    ).then((SingleResponse<LoginResponse> response) {
+      // 성공
+      log.i(response.data!.user);
+      log.i(response.data!.accessToken);
+      log.i(response.data!.refreshToken);
+      expect(response.data!.user!.email, 'nalraysy3@gmail.com');
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      // Get.toNamed(AppRoute.root);
+    }).catchError((error) {
+      // 실패
+      log.e(error);
+    });
   });
+
 }
