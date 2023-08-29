@@ -52,7 +52,7 @@ class SplashScreen extends StatelessWidget {
     await UserController.to.initUser();
 
     if (UserController.to.user.value.userId != null) {
-      await AccountController.to.findAccounts();
+      await AccountController.to.initAccounts();
       await TradeController.to.initTrades();
       await ChartPageController.to.initChartData();
       await AssetPageController.to.initAssetListSumAmount();

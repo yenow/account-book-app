@@ -34,5 +34,34 @@ class CommonColors {
   static const Color purpleBold = Color(0xFFA586DB);
   // static const Color purple3 = Color(0xFF6034AC);
 
+  static const List<Color> incomeColors = [
+    Color(0xFFD3B2FF),
+    Color(0xFFFF9FBB),
+    Color(0xFFB4FFEE),
+    Color(0xFFAAC6FF),
+    Color(0xFFC8C0FF),
+    Color(0xFFFFEFC1),
+    Color(0xFFFFB0DA),
+  ];
 
+  static const List<Color> expenseColors = [
+    Color(0xFF9EFFE7),
+    Color(0xFFA1D6FF),
+    Color(0xFFD6ABFF),
+    Color(0xFFABD6FF),
+    Color(0xFFBCB1FF),
+    Color(0xFFFFF4D2),
+    Color(0xFFF7C8E0),
+  ];
+
+  static const List<Color> typeColors = [
+    Color(0xFF60DC9C),
+    Color(0xFF43D3EA),
+    Color(0xFF57A0E7),
+    Color(0xFFAB6AEF),
+    Color(0xFF7093DE),
+    Color(0xFFDC9170),
+    Color(0xFFECD181),
+    Color(0xFFEA70AC),
+  ];
 }

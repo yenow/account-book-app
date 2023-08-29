@@ -2,6 +2,7 @@ import 'package:account_book/common/constant/colors.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/screen/trade_screen_controller.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,10 +29,12 @@ class TradeScreen extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             TradeTypeRadioButton(tradeType: trade.tradeType), //  거래 타입 선택
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
               child: buildForm(),
             ),
           ],
@@ -45,43 +48,49 @@ class TradeScreen extends StatelessWidget {
     return AppBar(
       title: Obx(() => Text(AppConverter.convertTradeType(TradesScreenController.to.tradeType.value))),
       actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.delete,
-          ),
-          onPressed: TradesScreenController.to.deleteTrade,
-          style: ButtonStyle(
-            padding: MaterialStateProperty.all(EdgeInsets.zero)
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-          child: IconButton(
-            icon: const Icon(
-              Icons.save,
-            ),
-            onPressed: TradesScreenController.to.saveTrade,
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all(EdgeInsets.zero)
-            ),
-          ),
-        ),
+        deleteButton(),
+        // saveButton(),
       ],
+    );
+  }
+
+  Widget saveButton() {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: ElevatedButton(
+        onPressed: TradesScreenController.to.saveTrade,
+        style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
+        child: const Text('저장히기'),
+      ),
+    );
+  }
+
+  Widget deleteButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+      child: IconButton(
+        icon: const Icon(
+          Icons.delete,
+        ),
+        onPressed: TradesScreenController.to.deleteTrade,
+        style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
+      ),
     );
   }
 
   Form buildForm() {
     return Form(
       key: TradesScreenController.to.formKey,
-      child: Obx(() =>
-          Column(
+      child: Obx(
+        () => Column(
           children: [
             buildDateInput(),
-            buildAmountInput(),
             TradesScreenController.to.tradeType.value == TradeType.transfer.name ? buildDepositAssetInput() : buildIncomeExpenseAccountInput(),
             TradesScreenController.to.tradeType.value == TradeType.transfer.name ? buildWithdrawAssetInput() : buildAssetInput(),
+            buildAmountInput(),
             buildContentInput(),
             buildMemoInput(),
+            saveButton(),
           ],
         ),
       ),
@@ -102,7 +111,10 @@ class TradeScreen extends StatelessWidget {
             width: 35,
             height: 35,
             child: IconButton(
-              icon: const Icon(Icons.date_range, size: 20),
+              icon: Icon(
+                FluentIcons.calendar_checkmark_24_regular,
+                // color: Get.theme.colorScheme.primary,
+              ),
               onPressed: TradesScreenController.to.onTapToDateInput,
             ),
           ),
@@ -133,14 +145,9 @@ class TradeScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
-          buildText(titleText: '금액'),
+          buildText(titleText: '금액'), // (₩)
           Expanded(
             child: buildAmountInputForm(),
-          ),
-          const SizedBox(
-            width: 35,
-            height: 35,
-            child: Icon(Icons.attach_money),
           ),
         ],
       ),
@@ -182,7 +189,10 @@ class TradeScreen extends StatelessWidget {
             height: 35,
             child: IconButton(
               onPressed: TradesScreenController.to.onTapToIncomeExpenseAccountInput,
-              icon: const Icon(CupertinoIcons.arrow_counterclockwise_circle_fill),
+              icon: const Icon(
+                FluentIcons.grid_24_regular,
+                // color: Get.theme.colorScheme.primary,
+              ),
             ),
           ),
         ],
@@ -220,7 +230,10 @@ class TradeScreen extends StatelessWidget {
             height: 35,
             child: IconButton(
               onPressed: TradesScreenController.to.onTapToAssetInput,
-              icon: const Icon(CupertinoIcons.arrow_counterclockwise_circle_fill),
+              icon: Icon(
+                FluentIcons.select_all_off_24_regular,
+                // color: Get.theme.colorScheme.primary,
+              ),
             ),
           ),
         ],
@@ -239,7 +252,6 @@ class TradeScreen extends StatelessWidget {
       style: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize!),
       controller: TradesScreenController.to.assetController,
       decoration: buildInputDecoration(),
-
     );
   }
 
@@ -258,7 +270,10 @@ class TradeScreen extends StatelessWidget {
             height: 35,
             child: IconButton(
               onPressed: TradesScreenController.to.onTapToAssetInput,
-              icon: const Icon(CupertinoIcons.arrow_counterclockwise_circle_fill),
+              icon: const Icon(
+                FluentIcons.document_arrow_left_20_regular,
+                // color: Get.theme.colorScheme.primary,
+              ),
             ),
           ),
         ],
@@ -277,7 +292,6 @@ class TradeScreen extends StatelessWidget {
       style: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize!),
       controller: TradesScreenController.to.depositAssertTextController,
       decoration: buildInputDecoration(),
-
     );
   }
 
@@ -296,7 +310,10 @@ class TradeScreen extends StatelessWidget {
             height: 35,
             child: IconButton(
               onPressed: TradesScreenController.to.onTapToAssetInput,
-              icon: const Icon(CupertinoIcons.arrow_counterclockwise_circle_fill),
+              icon: const Icon(
+                FluentIcons.document_arrow_right_20_regular,
+                // color: Get.theme.colorScheme.primary,
+              ),
             ),
           ),
         ],
@@ -315,7 +332,6 @@ class TradeScreen extends StatelessWidget {
       style: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize!),
       controller: TradesScreenController.to.withdrawAssertTextController,
       decoration: buildInputDecoration(),
-
     );
   }
 
@@ -365,10 +381,7 @@ class TradeScreen extends StatelessWidget {
 
   Widget buildMemoInputForm() {
     return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxHeight: 100,
-        minHeight: 50
-      ),
+      constraints: const BoxConstraints(maxHeight: 100, minHeight: 50),
       child: TextFormField(
         onSaved: (newValue) {},
         validator: (value) {},
@@ -384,16 +397,16 @@ class TradeScreen extends StatelessWidget {
     );
   }
 
-
   //endregion
 
   //region 공통 위젯
   Container buildText({required String titleText}) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(5, 0, 15, 0),
+      // width: 70,
+      padding: const EdgeInsets.fromLTRB(10, 0, 20, 0),
       child: Text(
         titleText,
-        style: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize!, color: Get.theme.colorScheme.onBackground),
+        style: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize!, color: Get.theme.colorScheme.primary, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -405,12 +418,9 @@ class TradeScreen extends StatelessWidget {
       focusColor: Get.theme.colorScheme.outlineVariant,
       errorMaxLines: 1,
       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      focusedBorder:
-          UnderlineInputBorder(borderSide: BorderSide(width: 1, color: Get.theme.colorScheme.outlineVariant)),
-      enabledBorder:
-          UnderlineInputBorder(borderSide: BorderSide(width: 0.5, color: Get.theme.colorScheme.outlineVariant)),
-      disabledBorder:
-          UnderlineInputBorder(borderSide: BorderSide(width: 0.5, color: Get.theme.colorScheme.outlineVariant)),
+      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(width: 1, color: Get.theme.colorScheme.outlineVariant)),
+      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 0.5, color: Get.theme.colorScheme.outlineVariant)),
+      disabledBorder: UnderlineInputBorder(borderSide: BorderSide(width: 0.5, color: Get.theme.colorScheme.outlineVariant)),
     );
   }
 

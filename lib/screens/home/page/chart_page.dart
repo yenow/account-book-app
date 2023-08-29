@@ -4,6 +4,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../common/constant/colors.dart';
 import '../../../get/controller/page/chart_page_controller.dart';
 
 class ChartPage extends StatefulWidget {
@@ -33,10 +34,13 @@ class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixi
               buildMonthIndicator(),
               buildTabBar(),
               Expanded(
-                child: TabBarView(children: [
-                  buildIncomeChart(),
-                  buildExpenseChart(),
-                ]),
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    buildIncomeChart(),
+                    buildExpenseChart(),
+                  ],
+                ),
               ),
             ],
           ),
@@ -69,7 +73,7 @@ class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixi
       child: Column(
         children: [
           TradePieChart(
-            colors: ChartPageController.to.incomeColors,
+            colors: CommonColors.incomeColors,
             chartData: ChartPageController.to.incomeChartData.value,
           ),
           ListView.builder(
@@ -80,7 +84,7 @@ class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixi
               return TradeChartRow(
                 chartData: ChartPageController.to.incomeChartData.value.elementAt(index),
                 index: index,
-                colors: ChartPageController.to.incomeColors,
+                colors: CommonColors.incomeColors,
               );
             },
           )
@@ -94,7 +98,7 @@ class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixi
       child: Column(
         children: [
           TradePieChart(
-            colors: ChartPageController.to.expenseColors,
+            colors: CommonColors.expenseColors,
             chartData: ChartPageController.to.expenseChartData.value,
           ),
           ListView.builder(
@@ -105,7 +109,7 @@ class _ChartPageState extends State<ChartPage> with AutomaticKeepAliveClientMixi
               return TradeChartRow(
                 chartData: ChartPageController.to.expenseChartData.value.elementAt(index),
                 index: index,
-                colors: ChartPageController.to.expenseColors,
+                colors: CommonColors.expenseColors,
               );
             },
           )

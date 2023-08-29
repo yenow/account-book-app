@@ -26,7 +26,7 @@ class AccountController extends GetxController {
   TextEditingController nameController = TextEditingController();
 
   /// 계정타입별 계정(카테고리)리스트
-  Future<void> findAccounts() async {
+  Future<void> initAccounts() async {
     await accountClient.findAccountsByAccountType().then((value) {
       incomeAccounts(value.data!.incomeAccounts);
       expenseAccounts(value.data!.expenseAccounts);

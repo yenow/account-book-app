@@ -9,12 +9,12 @@ import 'text_theme.dart';
 const mainFontFamily = 'cafe24SsurroundAir_KR';
 
 Color backgroundColor = const Color(0xFFFFFFFF);
-Color onBackgroundColor = const Color(0xFF595959);
-Color primaryColor = const Color(0xFFB2A4FF);  
+Color onBackgroundColor = const Color(0xFF6B6B6B);
+Color primaryColor = const Color(0xFFB2A4FF);
 Color onPrimaryColor = const Color(0xFFFFFFFF);
 Color onPrimaryContainer = const Color(0xFFD8D0FF);
-Color outLineColor = const Color(0xFFA1A1A1);   // 경계선 색
-Color outlineVariantColor = const Color(0xFF545454);  // 포커스
+Color outLineColor = const Color(0xFFA1A1A1); // 경계선 색
+Color outlineVariantColor = const Color(0xFF545454); // 포커스
 Color canvasColor = const Color(0xFFF8F8F8);
 Color outLineColor2 = const Color(0xFFDEDEDE);
 
@@ -56,10 +56,35 @@ ThemeData theme() => ThemeData(
         onError: backgroundColor,
         brightness: Brightness.light,
       ),
+      dialogTheme: dialogTheme(),
       scaffoldBackgroundColor: backgroundColor,
       primaryColor: const Color(0xFF7D51CB),
       focusColor: const Color(0xFF545454),
       canvasColor: canvasColor,
+    );
+
+DialogTheme dialogTheme() => DialogTheme(
+      backgroundColor: backgroundColor,
+      contentTextStyle: TextStyle(
+        fontSize: CommonFontSize.bodyMedium,
+        color: onPrimaryColor,
+        decoration: TextDecoration.none,
+        decorationColor: onPrimaryColor,
+        backgroundColor: onPrimaryColor,
+        fontFamily: mainFontFamily,
+      ),
+      titleTextStyle: TextStyle(
+        fontSize: CommonFontSize.bodyMedium,
+        color: onPrimaryColor,
+        decoration: TextDecoration.none,
+        decorationColor: onPrimaryColor,
+        backgroundColor: onPrimaryColor,
+        fontFamily: mainFontFamily,
+      ),
+      elevation: 0,
+      shadowColor: onPrimaryColor,
+      surfaceTintColor: onPrimaryColor,
+      iconColor: onPrimaryColor,
     );
 
 IconThemeData iconThemeData() => IconThemeData(

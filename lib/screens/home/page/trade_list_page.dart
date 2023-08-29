@@ -64,7 +64,7 @@ class SearchPage extends StatelessWidget {
           ),
           IconButton(
               onPressed: () {
-                AccountController.to.findAccounts();
+                AccountController.to.initAccounts();
               },
               icon: Icon(Icons.ac_unit))
         ],

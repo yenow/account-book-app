@@ -170,11 +170,11 @@ class SettingPage extends StatelessWidget {
             Get.toNamed(AppRoute.expenseCategoryManagement);
           },
         ),
-        SettingRow(
-          text: '자산 관리',
-          icon: const Icon(FluentIcons.channel_arrow_left_20_regular),
-          onTap: () {},
-        ),
+        // SettingRow(
+        //   text: '자산 관리',
+        //   icon: const Icon(FluentIcons.channel_arrow_left_20_regular),
+        //   onTap: () {},
+        // ),
       ]),
     );
   }

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:account_book/common/constant/size.dart';
 import 'package:account_book/data/model/chart_data.dart';
 import 'package:account_book/utilities/function/converter.dart';
+import 'package:account_book/utilities/function/icon_converter.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,8 +20,8 @@ class TradePieChart extends StatelessWidget {
       child: PieChart(
         PieChartData(
           borderData: FlBorderData(
-            // show: false,
-          ),
+              // show: false,
+              ),
           sectionsSpace: 1,
           centerSpaceRadius: 1,
           sections: showingSections(),
@@ -33,7 +34,7 @@ class TradePieChart extends StatelessWidget {
   List<PieChartSectionData> showingSections() {
     return List.generate(chartData.length, (index) {
       final fontSize = Get.theme.textTheme.bodyMedium?.fontSize;
-      const radius = 100.0;
+      const radius = 90.0;
 
       return PieChartSectionData(
         color: colors.elementAt(index % colors.length),
@@ -43,13 +44,25 @@ class TradePieChart extends StatelessWidget {
         radius: radius,
         badgeWidget: Container(
           margin: const EdgeInsets.fromLTRB(0, 0, 0, 35),
-          child: Text(
-            chartData.elementAt(index).accountName,
-            style: TextStyle(fontSize: fontSize, letterSpacing: CommonSize.letterSpacing),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.only(bottom: 5, right: 3),
+                child: Icon(
+                  IconConverter.iconConverter(chartData.elementAt(index).accountName),
+                  color: colors.elementAt(index % colors.length),
+                ),
+              ),
+              Text(
+                chartData.elementAt(index).accountName,
+                style: TextStyle(fontSize: fontSize, letterSpacing: CommonSize.letterSpacing),
+              ),
+            ],
           ),
         ),
-        badgePositionPercentageOffset: 1.35,
-        titlePositionPercentageOffset: 1.35,
+        badgePositionPercentageOffset: 1.45,
+        titlePositionPercentageOffset: 1.45,
         showTitle: true,
       );
     });

@@ -42,7 +42,7 @@ class IconConverter {
     }else if (iconName.contains('병원')) {
       return FluentIcons.building_20_regular;
     }else if (iconName.contains('취미')) {
-      return FluentIcons.wallet_20_regular;
+      return FluentIcons.vehicle_bicycle_20_regular;
     }else if (iconName.contains('교육')) {
       return FluentIcons.person_chat_20_regular;
     }else if (iconName.contains('전기')) {

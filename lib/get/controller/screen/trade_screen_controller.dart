@@ -137,21 +137,31 @@ class TradesScreenController extends GetxController {
       return;
     }
 
-    Account? result = await Get.bottomSheet(
+    Account? result = await Get.dialog(
       IncomeExpenseAccountBottomSheet(
         tradeType: pTradeType,
-        accounts: pAccounts,
+        // accounts: pAccounts,
       ),
-      elevation: 2,
-      backgroundColor: Get.theme.colorScheme.background,
-      enterBottomSheetDuration: const Duration(microseconds: 1000),
-      exitBottomSheetDuration: const Duration(microseconds: 1000),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(15),
-        ),
-      ),
+      barrierDismissible: true, // 외부 영역 터치시 뒤로 가기
+      transitionCurve: Curves.easeInOut,
+      transitionDuration: const Duration(milliseconds: 500),
     );
+
+    // Account? result = await Get.bottomSheet(
+    //   IncomeExpenseAccountBottomSheet(
+    //     tradeType: pTradeType,
+    //     accounts: pAccounts,
+    //   ),
+    //   elevation: 2,
+    //   backgroundColor: Get.theme.colorScheme.background,
+    //   enterBottomSheetDuration: const Duration(microseconds: 1000),
+    //   exitBottomSheetDuration: const Duration(microseconds: 1000),
+    //   shape: const RoundedRectangleBorder(
+    //     borderRadius: BorderRadius.vertical(
+    //       top: Radius.circular(15),
+    //     ),
+    //   ),
+    // );
 
     if (result != null) {
       incomeExpenseAccountController.text = result.accountName!;
@@ -199,18 +209,11 @@ class TradesScreenController extends GetxController {
 
   // 자산 선택시
   void onTapToAssetInput() async {
-    Account? result = await Get.bottomSheet(
-      const AssetBottomSheet(),
-      elevation: 2,
-      backgroundColor: Get.theme.colorScheme.background,
-      enterBottomSheetDuration: const Duration(microseconds: 1000),
-      exitBottomSheetDuration: const Duration(microseconds: 1000),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(15),
-        ),
-      ),
-    );
+    Account? result = await Get.dialog(AssetDialog(accounts: AccountController.to.assetAccounts.value),
+        barrierDismissible: true, // 외부 영역 터치시 뒤로 가기
+        transitionCurve: Curves.easeInOut,
+        transitionDuration: const Duration(milliseconds: 500),
+        useSafeArea: true);
 
     if (result != null) {
       assetController.text = result.accountName!;
@@ -231,17 +234,11 @@ class TradesScreenController extends GetxController {
 
   // 입금 선택
   void onTapToDepositAssetInput() async {
-    Account? result = await Get.bottomSheet(
-      const AssetBottomSheet(),
-      elevation: 2,
-      backgroundColor: Get.theme.colorScheme.background,
-      enterBottomSheetDuration: const Duration(microseconds: 1000),
-      exitBottomSheetDuration: const Duration(microseconds: 1000),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(15),
-        ),
-      ),
+    Account? result = await Get.dialog(
+      AssetDialog(accounts: AccountController.to.assetAccounts.value),
+      barrierDismissible: true, // 외부 영역 터치시 뒤로 가기
+      transitionCurve: Curves.easeInOut,
+      transitionDuration: const Duration(milliseconds: 500),
     );
 
     if (result != null) {
@@ -260,19 +257,13 @@ class TradesScreenController extends GetxController {
     return null;
   }
 
-  // 지출 선택
+  // 출금 선택
   void onTapToWithdrawAssetInput() async {
-    Account? result = await Get.bottomSheet(
-      const AssetBottomSheet(),
-      elevation: 2,
-      backgroundColor: Get.theme.colorScheme.background,
-      enterBottomSheetDuration: const Duration(microseconds: 1000),
-      exitBottomSheetDuration: const Duration(microseconds: 1000),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(15),
-        ),
-      ),
+    Account? result = await Get.dialog(
+      AssetDialog(accounts: AccountController.to.assetAccounts.value),
+      barrierDismissible: true, // 외부 영역 터치시 뒤로 가기
+      transitionCurve: Curves.easeInOut,
+      transitionDuration: const Duration(milliseconds: 500),
     );
 
     if (result != null) {
