@@ -16,7 +16,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../../common/constant/size.dart';
 import '../../../get/controller/screen/home_screen_controller.dart';
-import '../../../utilities/function/converter.dart';
+import '../../../common/function/converter.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);

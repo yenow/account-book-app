@@ -13,7 +13,7 @@ import '../../../data/client/clients.dart';
 import '../../../data/dto/chart/chart_response_dto.dart';
 import '../../../data/dto/single_response.dart';
 import '../../../data/model/chart_data.dart';
-import '../../../utilities/function/converter.dart';
+import '../../../common/function/converter.dart';
 
 class ChartPageController extends GetxController {
   static ChartPageController get to => Get.find();

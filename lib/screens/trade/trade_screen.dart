@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../common/log_config.dart';
-import '../../utilities/function/converter.dart';
+import '../../common/function/converter.dart';
 import 'component/trade_type_radio_button.dart';
 
 class TradeScreen extends StatelessWidget {

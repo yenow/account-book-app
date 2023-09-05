@@ -13,7 +13,7 @@ import '../../../data/model/account.dart';
 import '../../../data/model/asset.dart';
 import '../../../data/model/notify.dart';
 import '../../../screens/trade/component/asset_bottom_sheet.dart';
-import '../../../utilities/function/converter.dart';
+import '../../../common/function/converter.dart';
 import '../page/is_loading_controller.dart';
 
 class NotifyScreenController extends GetxController {

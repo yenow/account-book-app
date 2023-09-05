@@ -8,7 +8,7 @@ import '../../../common/log_config.dart';
 import '../../../common/widget/dialog/dialog.dart';
 import '../../../data/client/clients.dart';
 import '../../../data/model/account.dart';
-import '../../../utilities/function/icon_converter.dart';
+import '../../../common/function/icon_converter.dart';
 
 class AccountManagementRow extends StatelessWidget {
   const AccountManagementRow({super.key, required this.account, required this.accountType});

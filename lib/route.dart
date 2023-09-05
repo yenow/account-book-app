@@ -25,7 +25,7 @@ import 'data/model/notify.dart';
 import 'get/controller/screen/asset_screen_controller.dart';
 import 'screens/setting/expense_category_management_screen.dart';
 import 'screens/trade/trade_screen.dart';
-import 'utilities/function/converter.dart';
+import 'common/function/converter.dart';
 
 class AppRoute {
   static const String root = '/';

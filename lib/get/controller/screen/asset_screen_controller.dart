@@ -11,7 +11,7 @@ import '../../../data/client/clients.dart';
 import '../../../data/model/account.dart';
 import '../../../data/model/asset.dart';
 import '../../../screens/trade/component/asset_bottom_sheet.dart';
-import '../../../utilities/function/converter.dart';
+import '../../../common/function/converter.dart';
 
 class AssetScreenController extends GetxController {
   static AssetScreenController get to => Get.find();

@@ -11,7 +11,7 @@ import '../../../data/model/trade.dart';
 import '../../../get/controller/page/calendar_page_controller.dart';
 import '../../../get/controller/trade_controller.dart';
 import '../../../main.dart';
-import '../../../utilities/function/converter.dart';
+import '../../../common/function/converter.dart';
 
 class CalendarView extends StatelessWidget {
   const CalendarView({super.key, required this.tradeListMap});

@@ -1,7 +1,7 @@
 import 'package:account_book/data/client/clients.dart';
 import 'package:account_book/get/controller/account_controller.dart';
 import 'package:account_book/screens/setting/widget/account_management_row.dart';
-import 'package:account_book/utilities/function/icon_converter.dart';
+import 'package:account_book/common/function/icon_converter.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../route.dart';
-import '../../../utilities/function/converter.dart';
+import '../../../common/function/converter.dart';
 import '../page/calendar_page_controller.dart';
 import '../trade_controller.dart';
 

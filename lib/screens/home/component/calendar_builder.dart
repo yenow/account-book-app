@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../get/controller/page/calendar_page_controller.dart';
-import '../../../utilities/function/converter.dart';
+import '../../../common/function/converter.dart';
 
 class CalendarBuilder extends StatefulWidget {
   const CalendarBuilder({super.key});

@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 
 import '../../common/log_config.dart';
 import '../../data/model/asset.dart';
-import '../../utilities/function/converter.dart';
+import '../../common/function/converter.dart';
 
 class AssetScreen extends StatelessWidget {
   const AssetScreen({Key? key, required this.asset}) : super(key: key);

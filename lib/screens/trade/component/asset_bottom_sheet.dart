@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import '../../../data/model/account.dart';
 import '../../../get/controller/screen/trade_screen_controller.dart';
 import '../../../route.dart';
-import '../../../utilities/function/icon_converter.dart';
+import '../../../common/function/icon_converter.dart';
 
 class AssetDialog extends StatelessWidget {
   const AssetDialog({super.key, required this.accounts});

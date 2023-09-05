@@ -1,7 +1,7 @@
 import 'package:account_book/data/model/trade.dart';
 import 'package:intl/intl.dart';
 
-import '../../common/log_config.dart';
+import '../log_config.dart';
 
 class AppConverter {
   static final f = NumberFormat('###,###,###,###');
