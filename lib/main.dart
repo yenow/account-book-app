@@ -12,13 +12,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'data/model/trade.dart';
 
-
 // 보안 저장소
 final storage = FlutterSecureStorage(aOptions: _getAndroidOptions(), iOptions: _getIOSOptions());
+
 IOSOptions _getIOSOptions() => const IOSOptions();
+
 AndroidOptions _getAndroidOptions() => const AndroidOptions(
-  encryptedSharedPreferences: true,
-);
+      encryptedSharedPreferences: true,
+    );
 
 // 구글 로그인
 GoogleSignIn googleSignIn = GoogleSignIn();
@@ -28,19 +29,24 @@ final EventController<Trade> eventController = EventController<Trade>();
 
 void main() async {
   dlog.i('height : ${Get.height}, width : ${Get.width}');
+
+  /*
+   WidgetsFlutterBinding.ensureInitialized()의 역할
+   1. Flutter 엔진 초기화
+   2. 비동기 작업을 위한 준비 작업
+   3. Flutter 기능에 대한 접근 허용 : 플러터 프레임워크의 다양한 기능 및 패키지에 접근할 수 있다.
+   */
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
 
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     // 화면 회전 방지
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
