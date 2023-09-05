@@ -4,6 +4,7 @@ import 'package:account_book/get/binding/init_binding.dart';
 import 'package:account_book/route.dart';
 import 'package:account_book/screens/home/home_screen.dart';
 import 'package:account_book/common/theme/theme.dart';
+import 'package:calendar_view/calendar_view.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import 'data/model/trade.dart';
 
 // 보안 저장소
 final storage = FlutterSecureStorage(aOptions: _getAndroidOptions(), iOptions: _getIOSOptions());
@@ -21,6 +24,9 @@ AndroidOptions _getAndroidOptions() => const AndroidOptions(
 
 // 구글 로그인
 GoogleSignIn googleSignIn = GoogleSignIn();
+
+// 캘린더
+final EventController<Trade> eventController = EventController<Trade>();
 
 void main() async {
   dlog.i('height : ${Get.height}, width : ${Get.width}');

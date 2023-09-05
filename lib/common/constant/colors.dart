@@ -12,11 +12,11 @@ class CommonColors {
   static const Color grey = Colors.grey;
   static const Color darkGrey = Color(0xFF707070);
 
-  static const Color incomeColor = Color(0xFFFF6363);
-  static const Color expenseColor = Color(0xFF4F97FF);
-  static const Color transferColor = Color(0xFF4FCB46);
-  static const Color sundayColor = Color(0xFFFF6363);
-  static const Color saturdayColor = Color(0xFF4F97FF);
+  static const Color incomeColor = Color(0xFFFFB531);
+  static const Color expenseColor = Color(0xFF6DA3FF);
+  static const Color transferColor = Color(0xFF75685F);
+  static const Color sundayColor = Color(0xFFFF8989);
+  static const Color saturdayColor = Color(0xFF72ACFF);
 
   static const Color primaryColor = Color(0xFF7D51CB);
   static const Color onPrimaryColor = Color(0xFFFFFFFF);

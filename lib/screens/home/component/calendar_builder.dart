@@ -3,12 +3,69 @@ import 'package:account_book/common/constant/fontsize.dart';
 import 'package:account_book/common/constant/size.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../get/controller/page/calendar_page_controller.dart';
 import '../../../utilities/function/converter.dart';
+
+class CalendarBuilder extends StatefulWidget {
+  const CalendarBuilder({super.key});
+
+  @override
+  State<CalendarBuilder> createState() => CalendarBuilderState();
+}
+
+class CalendarBuilderState extends State<CalendarBuilder> {
+  void onPageChanged(day) {
+    CalendarPageController.to.selectedDay(day);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 0.1,
+            color: Get.theme.colorScheme.outline,
+          ),
+        ),
+      ),
+      child: TableCalendar(
+        firstDay: CalendarPageController.to.firstDay,
+        lastDay: CalendarPageController.to.lastDay,
+        focusedDay: CalendarPageController.to.focusedDay.value,
+        // currentDay: CalendarPageController.to.selectedDay.value,
+        pageAnimationEnabled: false,
+        rowHeight: 65,
+        headerVisible: false,
+        headerStyle: HeaderStyle(
+          formatButtonVisible: false,
+          leftChevronIcon: const Icon(FluentIcons.chevron_left_20_regular),
+          rightChevronIcon: const Icon(FluentIcons.chevron_right_20_regular),
+          titleCentered: true,
+          headerPadding: const EdgeInsets.only(bottom: 10),
+          titleTextStyle: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize),
+        ),
+        calendarStyle: const CalendarStyle(
+          canMarkersOverflow: false,
+        ),
+        calendarFormat: CalendarFormat.month,
+        onPageChanged: CalendarPageController.to.onPageChanged,
+        onFormatChanged: CalendarPageController.to.onFormatChanged,
+        selectedDayPredicate: CalendarPageController.to.selectedDayPredicate,
+        onDaySelected: CalendarPageController.to.onDaySelected,
+        eventLoader: CalendarPageController.to.eventLoader,
+        calendarBuilders: buildCalendarBuilders(), // 캘린터 설정
+      ),
+    );
+  }
+}
 
 // 커스텀 캘린더
 CalendarBuilders<dynamic> buildCalendarBuilders() {
@@ -19,7 +76,7 @@ CalendarBuilders<dynamic> buildCalendarBuilders() {
     selectedBuilder: selectedBuilder,
     todayBuilder: defaultBuilder,
     dowBuilder: dowBuilder,
-    // headerTitleBuilder: headerTitleBuilder,
+    headerTitleBuilder: headerTitleBuilder,
   );
 }
 
@@ -131,7 +188,9 @@ Widget? markerBuilder(BuildContext context, DateTime day, events) {
         income == 0 ? Container(height: 10) : buildTradeMarker(income, CommonColors.incomeColor),
         expense == 0 ? Container(height: 10) : buildTradeMarker(expense, CommonColors.expenseColor),
         transfer == 0 ? Container(height: 10) : buildTradeMarker(transfer, CommonColors.transferColor),
-        const SizedBox(height: 3,)
+        const SizedBox(
+          height: 3,
+        )
       ],
     );
   }
@@ -171,8 +230,14 @@ Container buildTradeMarker(int amount, Color? color) {
 // }
 
 // title
-Widget? headerTitleBuilder(context, day) {
-  return Container();
+Widget? headerTitleBuilder(BuildContext context, DateTime day) {
+  return Container(
+    alignment: Alignment.center,
+    child: Text(
+      '${day.year}년 ${day.month}월',
+      style: Get.textTheme.bodyLarge,
+    ),
+  );
 }
 
 EdgeInsets dayEdgeInsets() => const EdgeInsets.fromLTRB(0, 10, 0, 0);

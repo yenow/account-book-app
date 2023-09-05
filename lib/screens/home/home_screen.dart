@@ -1,6 +1,6 @@
 import 'package:account_book/common/constant/colors.dart';
 import 'package:account_book/common/constant/size.dart';
-import 'package:account_book/common/navigationbar_enum.dart';
+import 'package:account_book/common/constant/navigationbar_enum.dart';
 import 'package:account_book/common/log_config.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/screen/home_screen_controller.dart';
@@ -68,6 +68,7 @@ class HomeScreen extends StatelessWidget {
       child: BottomNavigationBar(
         currentIndex: HomeScreenController.to.selectIndex.value,
         onTap: HomeScreenController.to.onTap,
+
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Padding(

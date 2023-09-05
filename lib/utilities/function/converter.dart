@@ -9,6 +9,27 @@ class AppConverter {
   static final dayFormat = DateFormat('yyyyMMdd');
   static final dayDashFormat = DateFormat('yyyy.MM.dd');
 
+  static String convertWeekDay(int index) {
+    switch (index) {
+      case 0:
+        return '일';
+      case 1:
+        return '월';
+      case 2:
+        return '화';
+      case 3:
+        return '수';
+      case 4:
+        return '목';
+      case 5:
+        return '금';
+      case 6:
+        return '토';
+    }
+    return '';
+  }
+
+  // 화폐 단위로 변경
   static String numberFormat(num num) {
     return f.format(num);
   }

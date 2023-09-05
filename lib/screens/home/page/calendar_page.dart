@@ -3,9 +3,11 @@ import 'package:account_book/common/constant/format.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/trade_controller.dart';
 import 'package:account_book/get/controller/page/calendar_page_controller.dart';
+import 'package:account_book/screens/home/component/calendar_view.dart';
 import 'package:account_book/screens/home/component/trade_history_row.dart';
 import 'package:account_book/screens/home/component/calendar_builder.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:calendar_view/calendar_view.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,23 +34,35 @@ class _CalendarPageState extends State<CalendarPage> with AutomaticKeepAliveClie
     super.build(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('가계부'),
-      ),
-      floatingActionButton: floatingActionButton(),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Obx(() => buildMonthIndicator()),
-            Obx(() => buildTotal()),
-            Obx(() => buildTableCalendar()),
-            Obx(() => buildTradeHistory()),
-            // , const SizedBox(height: 10), buildTransactionHistory()
-          ],
+        appBar: AppBar(
+          title: const Text('가계부'),
         ),
-      ),
-    );
+        floatingActionButton: floatingActionButton(),
+        body: Column(
+          children: [
+            Flexible(
+              fit: FlexFit.loose,
+              flex: 1,
+              child: Obx(() => buildMonthIndicator()),
+            ),
+            Flexible(
+              fit: FlexFit.loose,
+              flex: 1,
+              child: Obx(() => buildTotal()),
+            ),
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 7,
+              child: Obx(() => CalendarView(tradeListMap: TradeController.to.tradeListMap.value)),
+            ),
+            // const CalendarBuilder(),
+            Flexible(
+              fit: FlexFit.loose,
+              flex: 3,
+              child: Obx(() => buildTradeHistory()),
+            ),
+          ],
+        ));
   }
 
   FloatingActionButton? floatingActionButton() {
@@ -193,39 +207,48 @@ class _CalendarPageState extends State<CalendarPage> with AutomaticKeepAliveClie
     );
   }
 
-  /// 캘린더 영역
-  Widget buildTableCalendar() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            width: 0.1,
-            color: Get.theme.colorScheme.outline,
-          ),
-        ),
-      ),
-      child: TableCalendar(
-        firstDay: CalendarPageController.to.firstDay,
-        lastDay: CalendarPageController.to.lastDay,
-        focusedDay: CalendarPageController.to.focusedDay.value,
-        rowHeight: 65,
-        headerVisible: false,
-        headerStyle: const HeaderStyle(
-            formatButtonVisible: false, titleCentered: true, headerPadding: EdgeInsets.symmetric(vertical: 5), titleTextStyle: TextStyle(fontSize: 20)),
-        calendarStyle: const CalendarStyle(
-          canMarkersOverflow: false,
-        ),
-        calendarFormat: CalendarFormat.month,
-        onPageChanged: CalendarPageController.to.onPageChanged,
-        onFormatChanged: CalendarPageController.to.onFormatChanged,
-        selectedDayPredicate: CalendarPageController.to.selectedDayPredicate,
-        onDaySelected: CalendarPageController.to.onDaySelected,
-        eventLoader: CalendarPageController.to.eventLoader,
-        calendarBuilders: buildCalendarBuilders(), // 캘린터 설정
-      ),
-    );
-  }
+  // /// 캘린더 영역
+  // Widget buildTableCalendar() {
+  //   return Container(
+  //     key: CalendarPageController.to.globalKey,
+  //     padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+  //     decoration: BoxDecoration(
+  //       border: Border(
+  //         bottom: BorderSide(
+  //           width: 0.1,
+  //           color: Get.theme.colorScheme.outline,
+  //         ),
+  //       ),
+  //     ),
+  //     child: TableCalendar(
+  //       firstDay: CalendarPageController.to.firstDay,
+  //       lastDay: CalendarPageController.to.lastDay,
+  //       focusedDay: CalendarPageController.to.focusedDay.value,
+  //       // currentDay: CalendarPageController.to.selectedDay.value,
+  //       pageAnimationEnabled: false,
+  //       rowHeight: 65,
+  //       headerVisible: false,
+  //       headerStyle: HeaderStyle(
+  //         formatButtonVisible: false,
+  //         leftChevronIcon: const Icon(FluentIcons.chevron_left_20_regular),
+  //         rightChevronIcon: const Icon(FluentIcons.chevron_right_20_regular),
+  //         titleCentered: true,
+  //         headerPadding: const EdgeInsets.only(bottom: 10),
+  //         titleTextStyle: TextStyle(fontSize: Get.textTheme.bodyLarge!.fontSize),
+  //       ),
+  //       calendarStyle: const CalendarStyle(
+  //         canMarkersOverflow: false,
+  //       ),
+  //       calendarFormat: CalendarFormat.month,
+  //       onPageChanged: CalendarPageController.to.onPageChanged,
+  //       onFormatChanged: CalendarPageController.to.onFormatChanged,
+  //       selectedDayPredicate: CalendarPageController.to.selectedDayPredicate,
+  //       onDaySelected: CalendarPageController.to.onDaySelected,
+  //       eventLoader: CalendarPageController.to.eventLoader,
+  //       calendarBuilders: buildCalendarBuilders(), // 캘린터 설정
+  //     ),
+  //   );
+  // }
 
   // 당일 거래 내역
   Widget buildTradeHistory() {

@@ -21,6 +21,8 @@ import 'package:oauth2_client/oauth2_helper.dart';
 import '../../../common/log_config.dart';
 import '../../../common/widget/loader.dart';
 import '../../../data/client/clients.dart';
+import '../../../data/dto/list_response.dart';
+import '../../../data/model/notify.dart';
 import '../../../main.dart';
 import '../component/setting_row.dart';
 
@@ -66,7 +68,9 @@ class SettingPage extends StatelessWidget {
         SettingRow(
           text: '공지사항',
           icon: const Icon(FluentIcons.alert_20_regular),
-          onTap: () {},
+          onTap: () async {
+            Get.toNamed(AppRoute.notifyScreen);
+          },
         ),
         SettingRow(
           text: '다크모드',

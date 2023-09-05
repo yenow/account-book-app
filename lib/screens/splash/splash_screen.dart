@@ -26,13 +26,6 @@ class SplashScreen extends StatelessWidget {
               '가계부',
               style: Get.textTheme.headlineMedium,
             ),
-            GestureDetector(
-              onTap: UserController.to.clearToken,
-              child: Text(
-                '임시 로그아웃',
-                style: Get.textTheme.bodySmall,
-              ),
-            )
           ],
         ),
         duration: 1000,
@@ -48,6 +41,7 @@ class SplashScreen extends StatelessWidget {
         });
   }
 
+  // 데이터 조회
   Future<void> _processingData() async {
     await UserController.to.initUser();
 
@@ -57,5 +51,16 @@ class SplashScreen extends StatelessWidget {
       await ChartPageController.to.initChartData();
       await AssetPageController.to.initAssetListSumAmount();
     }
+  }
+
+  // 오류시 로그아웃 버튼
+  GestureDetector logoutButton() {
+    return GestureDetector(
+      onTap: UserController.to.clearToken,
+      child: Text(
+        '임시 로그아웃',
+        style: Get.textTheme.bodySmall,
+      ),
+    );
   }
 }

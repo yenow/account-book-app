@@ -26,7 +26,7 @@ class _AssetPageState extends State<AssetPage> with AutomaticKeepAliveClientMixi
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('자산'),
+        title: const Text('자산 관리'),
         actions: [buildAssetAddButton()],
       ),
       body: buildBody(),

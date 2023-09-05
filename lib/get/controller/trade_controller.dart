@@ -4,10 +4,13 @@ import 'package:account_book/common/log_config.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/page/calendar_page_controller.dart';
 import 'package:account_book/utilities/function/converter.dart';
+import 'package:calendar_view/calendar_view.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../data/client/clients.dart';
 import '../../data/dto/map_response.dart';
+import '../../main.dart';
 
 class TradeController extends GetxController {
   static TradeController get to => Get.find();
@@ -20,6 +23,20 @@ class TradeController extends GetxController {
       tradeListMap(value.data);
       log.i('가계부 거래 목록 :\n ${tradeListMap.value}');
     });
+
+    // tradeListMap.value.forEach((key, List<Trade> value) {
+    //   for (Trade trade in value) {
+    //
+    //     final event = CalendarEventData(
+    //       title: trade.incomeOrExpenseAccountName!,
+    //       date: AppConverter.toDateTime(trade.tradeDate!),
+    //       event: trade,
+    //     );
+    //
+    //     // dlog.i(CalendarControllerProvider.of(Get.context!).controller);
+    //     eventController.add(event);
+    //   }
+    // });
   }
 
   // 거래 리스트

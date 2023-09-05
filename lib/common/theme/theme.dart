@@ -12,7 +12,7 @@ Color backgroundColor = const Color(0xFFFFFFFF);
 Color onBackgroundColor = const Color(0xFF6B6B6B);
 Color primaryColor = const Color(0xFFB2A4FF);
 Color onPrimaryColor = const Color(0xFFFFFFFF);
-Color onPrimaryContainer = const Color(0xFFD8D0FF);
+Color onPrimaryContainer = const Color(0xFFE5DFFF);
 Color outLineColor = const Color(0xFFA1A1A1); // 경계선 색
 Color outlineVariantColor = const Color(0xFF545454); // 포커스
 Color canvasColor = const Color(0xFFF8F8F8);
@@ -37,7 +37,7 @@ ThemeData theme() => ThemeData(
         inversePrimary: const Color(0xFFD0F5BE),
         // 메인 컬러 반대
         primaryContainer: const Color(0xFF8C00FF),
-        secondary: const Color(0xFFFDA8AA),
+        secondary: primaryColor, // const Color(0xFFFDA8AA),
         // 두번째 메인 컬러
         onSecondary: const Color(0xFFFFFFFF),
         // 세번째 메인 컬러
@@ -122,6 +122,7 @@ FloatingActionButtonThemeData floatingActionButtonThemeData() => FloatingActionB
 
 //region 하단 네비게이션 테마
 BottomNavigationBarThemeData bottomNavigationBarTheme() => BottomNavigationBarThemeData(
+  
       selectedLabelStyle: const TextStyle(fontSize: CommonFontSize.bodySmall),
       unselectedLabelStyle: const TextStyle(fontSize: CommonFontSize.bodySmall),
       selectedItemColor: primaryColor,

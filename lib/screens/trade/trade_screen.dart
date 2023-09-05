@@ -111,9 +111,8 @@ class TradeScreen extends StatelessWidget {
             width: 35,
             height: 35,
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 FluentIcons.calendar_checkmark_24_regular,
-                // color: Get.theme.colorScheme.primary,
               ),
               onPressed: TradesScreenController.to.onTapToDateInput,
             ),

@@ -7,7 +7,7 @@ part 'trade.g.dart';
 @JsonSerializable()
 class Trade extends BaseModel {
   int? tradeId;
-  String? tradeDate;
+  String? tradeDate;  /// foramt : YYYYMMDD
   DateTime? realTradeDate;
   String? tradeType;
   String? typeName;
