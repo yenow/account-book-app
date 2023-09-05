@@ -8,9 +8,9 @@ class LoggingInterceptor extends Interceptor {
     dlog.i('LoggingInterceptor onRequest');
 
     String header = '';
-    options.headers.forEach((k, v) => header = '$header, $k: $v');
+    options.headers.forEach((k, v) => header = '$header, $k: $v\n');
     String queryParameters = '';
-    options.queryParameters.forEach((k, v) => queryParameters = '$queryParameters, $k: $v');
+    options.queryParameters.forEach((k, v) => queryParameters = '$queryParameters, $k: $v\n');
 
     log.i("--> ${options.method.toUpperCase()} ${options.baseUrl}${options.path}\n"
         "Headers: "
@@ -35,7 +35,7 @@ class LoggingInterceptor extends Interceptor {
     dlog.i('LoggingInterceptor onResponse');
 
     String header = '';
-    response.headers.forEach((k, v) => header = '$header, $k: $v');
+    response.headers.forEach((k, v) => header = '$header, $k: $v\n');
 
     log.i("<-- ${response.statusCode} ${response.requestOptions.baseUrl}${response.requestOptions.path}\n"
         "Headers: "
