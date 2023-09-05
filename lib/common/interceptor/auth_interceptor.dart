@@ -1,18 +1,25 @@
 import 'package:account_book/get/controller/user_controller.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 
+import '../function/device_info.dart';
 import '../log_config.dart';
+import '../object/device_info.dart';
 
 class AuthInterceptor extends Interceptor {
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    dlog.i('AuthInterceptor onRequest');
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    dlog.d('AuthInterceptor onRequest');
+    DeviceInfo deviceInfo = await getDeviceInfo();
 
     if (UserController.to.accessToken != '') {
       options.headers.addAll({
         "Authorization": "Bearer ${UserController.to.accessToken}",
         "refreshToken": UserController.to.refreshToken,
+        "platform" :deviceInfo.platform,
+        "device" :deviceInfo.device,
+        "version" :deviceInfo.version,
       });
     }
     super.onRequest(options, handler);
