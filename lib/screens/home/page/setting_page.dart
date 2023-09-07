@@ -4,26 +4,12 @@ import 'package:account_book/get/controller/page/is_loading_controller.dart';
 import 'package:account_book/get/controller/page/setting_page_controller.dart';
 import 'package:account_book/get/controller/user_controller.dart';
 import 'package:account_book/route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:oauth2_client/access_token_response.dart';
-import 'package:oauth2_client/google_oauth2_client.dart';
-import 'package:oauth2_client/oauth2_client.dart';
-import 'package:oauth2_client/oauth2_helper.dart';
 
 import '../../../common/log_config.dart';
-import '../../../common/widget/loader.dart';
-import '../../../data/client/clients.dart';
-import '../../../data/dto/list_response.dart';
-import '../../../data/model/notify.dart';
-import '../../../main.dart';
 import '../component/setting_row.dart';
 
 class SettingPage extends StatelessWidget {
@@ -74,8 +60,10 @@ class SettingPage extends StatelessWidget {
         ),
         SettingRow(
           text: '다크모드',
-          icon: const Icon(FluentIcons.color_16_regular),
-          onTap: () {},
+          icon: const Icon(FluentIcons.color_20_regular),
+          onTap: () async {
+            await Get.toNamed(AppRoute.darkmodeScreen);
+          },
         ),
       ]),
     );

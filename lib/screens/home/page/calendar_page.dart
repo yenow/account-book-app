@@ -194,7 +194,7 @@ class _CalendarPageState extends State<CalendarPage> with AutomaticKeepAliveClie
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text('합계', style: TextStyle(color: CommonColors.black, letterSpacing: CommonSize.letterSpacing)),
+                  Text('합계', style: TextStyle(letterSpacing: CommonSize.letterSpacing)),
                   AutoSizeText(
                     '${AppConverter.numberFormat(TradeController.to.calculateTotalIncome() - TradeController.to.calculateTotalExpense())}원',
                     textAlign: TextAlign.right,

@@ -37,7 +37,8 @@ ThemeData theme() => ThemeData(
         inversePrimary: const Color(0xFFD0F5BE),
         // 메인 컬러 반대
         primaryContainer: const Color(0xFF8C00FF),
-        secondary: primaryColor, // const Color(0xFFFDA8AA),
+        secondary: primaryColor,
+        // const Color(0xFFFDA8AA),
         // 두번째 메인 컬러
         onSecondary: const Color(0xFFFFFFFF),
         // 세번째 메인 컬러
@@ -111,7 +112,11 @@ AppBarTheme appTheme() => AppBarTheme(
       toolbarHeight: CommonSize.appbarHeight,
       backgroundColor: primaryColor,
       elevation: 3.0,
-      titleTextStyle: const TextStyle(fontSize: 18, fontFamily: mainFontFamily, color: CommonColors.white),
+      titleTextStyle: const TextStyle(
+        fontSize: 18,
+        fontFamily: mainFontFamily,
+        color: CommonColors.white,
+      ),
     );
 
 //
@@ -122,7 +127,6 @@ FloatingActionButtonThemeData floatingActionButtonThemeData() => FloatingActionB
 
 //region 하단 네비게이션 테마
 BottomNavigationBarThemeData bottomNavigationBarTheme() => BottomNavigationBarThemeData(
-  
       selectedLabelStyle: const TextStyle(fontSize: CommonFontSize.bodySmall),
       unselectedLabelStyle: const TextStyle(fontSize: CommonFontSize.bodySmall),
       selectedItemColor: primaryColor,

@@ -1,6 +1,6 @@
 import 'package:account_book/get/controller/account_controller.dart';
+import 'package:account_book/get/controller/app_controller.dart';
 import 'package:account_book/get/controller/page/asset_page_controller.dart';
-import 'package:account_book/get/controller/page/is_loading_controller.dart';
 import 'package:account_book/get/controller/trade_controller.dart';
 import 'package:account_book/get/controller/user_controller.dart';
 import 'package:account_book/screens/home/home_screen.dart';
@@ -9,8 +9,6 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../common/log_config.dart';
-import '../../common/widget/loader.dart';
 import '../../get/controller/page/chart_page_controller.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -20,13 +18,13 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen.withScreenFunction(
         splash: Column(
-          children: [
-            Icon(Icons.home, size: Get.textTheme.headlineMedium?.fontSize),
-            Text(
-              '가계부',
-              style: Get.textTheme.headlineMedium,
-            ),
-          ],
+            children: [
+              Icon(Icons.home, size: Get.textTheme.headlineMedium?.fontSize),
+              Text(
+                '가계부',
+                style: Get.textTheme.headlineMedium,
+              ),
+            ],
         ),
         duration: 1000,
         splashTransition: SplashTransition.fadeTransition,
@@ -41,8 +39,9 @@ class SplashScreen extends StatelessWidget {
         });
   }
 
-  // 데이터 조회
+  // 데이터 조회 및 초기화 작업
   Future<void> _processingData() async {
+    await AppController.to.initData();
     await UserController.to.initUser();
 
     if (UserController.to.user.value.userId != null) {

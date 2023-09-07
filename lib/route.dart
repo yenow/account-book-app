@@ -1,16 +1,14 @@
 import 'package:account_book/common/log_config.dart';
-import 'package:account_book/data/dto/trade/trade_request_dto.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/binding/asset_screen_binding.dart';
 import 'package:account_book/get/binding/notify_screen_binding.dart';
 import 'package:account_book/get/binding/trade_screen_binding.dart';
 import 'package:account_book/get/binding/login_binding.dart';
-import 'package:account_book/get/controller/screen/notify_screen_controller.dart';
 import 'package:account_book/get/controller/screen/trade_screen_controller.dart';
-import 'package:account_book/get/controller/screen/login_screen_controller.dart';
 import 'package:account_book/screens/asset/asset_screen.dart';
 import 'package:account_book/screens/home/home_screen.dart';
 import 'package:account_book/screens/login/login_screen.dart';
+import 'package:account_book/screens/setting/darkmode_screen.dart';
 import 'package:account_book/screens/setting/income_category_management_screen.dart';
 import 'package:account_book/screens/setting/notify_screen.dart';
 import 'package:account_book/screens/splash/splash_screen.dart';
@@ -18,10 +16,7 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import 'data/client/clients.dart';
-import 'data/dto/list_response.dart';
 import 'data/model/asset.dart';
-import 'data/model/notify.dart';
 import 'get/controller/screen/asset_screen_controller.dart';
 import 'screens/setting/expense_category_management_screen.dart';
 import 'screens/trade/trade_screen.dart';
@@ -36,6 +31,7 @@ class AppRoute {
   static const String expenseCategoryManagement = '/expenseCategoryManagement';
   static const String assetScreen = '/assetScreen';
   static const String notifyScreen = '/notifyScreen';
+  static const String darkmodeScreen = '/darkmodeScreen';
 
   static List<GetPage<dynamic>> getRoutes() {
     return [
@@ -47,6 +43,7 @@ class AppRoute {
       toExpenseCategoryManagement(),
       toAssetScreen(),
       toNotifyScreen(),
+      toDarkmodeScreen(),
     ];
   }
 
@@ -64,6 +61,12 @@ class AppRoute {
         name: notifyScreen,
         page: () => const NotifyScreen(),
         binding: NotifyScreenBinding(),
+      );
+
+  /// 다크 모드
+  static GetPage<dynamic> toDarkmodeScreen() => GetPage(
+        name: darkmodeScreen,
+        page: () => const DarkModeScreen(),
       );
 
   static GetPage<dynamic> toLoginScreen() {

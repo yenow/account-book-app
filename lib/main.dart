@@ -1,5 +1,6 @@
 import 'package:account_book/common/log_config.dart';
 import 'package:account_book/get/binding/init_binding.dart';
+import 'package:account_book/get/controller/app_controller.dart';
 import 'package:account_book/route.dart';
 import 'package:account_book/common/theme/theme.dart';
 import 'package:calendar_view/calendar_view.dart';
@@ -10,6 +11,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'common/theme/dark_theme.dart';
+import 'common/theme/system_theme.dart';
 import 'data/model/trade.dart';
 
 // 보안 저장소
@@ -27,6 +30,9 @@ GoogleSignIn googleSignIn = GoogleSignIn();
 // 캘린더
 final EventController<Trade> eventController = EventController<Trade>();
 
+// 다크모드
+String isDarkMode = '';
+
 void main() async {
   dlog.i('height : ${Get.height}, width : ${Get.width}');
 
@@ -38,6 +44,8 @@ void main() async {
    */
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
+
+  isDarkMode = await storage.read(key: 'isDarkMode') ?? 'N';
 
   runApp(const MyApp());
 }
@@ -52,6 +60,14 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+    dlog.i('isDarkMode = $isDarkMode');
+    // 시스템 네비게이션바 색상 설정
+    if (isDarkMode == 'Y') {
+      SystemChrome.setSystemUIOverlayStyle(darkSystemUiOverlayStyle);
+    } else {
+      SystemChrome.setSystemUIOverlayStyle(lightSystemUiOverlayStyle);
+    }
 
     return ScreenUtilInit(
       designSize: const Size(411, 820),
@@ -69,8 +85,8 @@ class MyApp extends StatelessWidget {
           initialBinding: InitBinding(),
           initialRoute: AppRoute.root,
           theme: theme(),
-          // darkTheme: darkTheme(),
-          // themeMode: ThemeMode.light,
+          darkTheme: darkTheme(),
+          themeMode: isDarkMode == 'Y' ? ThemeMode.dark : ThemeMode.light,
           // localizationsDelegates: const [
           //   GlobalMaterialLocalizations.delegate,
           //   GlobalWidgetsLocalizations.delegate,

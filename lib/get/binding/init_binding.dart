@@ -1,5 +1,6 @@
 
 import 'package:account_book/get/controller/account_controller.dart';
+import 'package:account_book/get/controller/app_controller.dart';
 import 'package:account_book/get/controller/page/asset_page_controller.dart';
 import 'package:account_book/get/controller/page/chart_page_controller.dart';
 import 'package:account_book/get/controller/page/setting_page_controller.dart';
@@ -17,6 +18,7 @@ class InitBinding implements Bindings {
 
   @override
   void dependencies() {
+    Get.put(AppController(), permanent: true);
     Get.put(HomeScreenController(), permanent: true);
     Get.put(LoginScreenController(), permanent: true);
 
