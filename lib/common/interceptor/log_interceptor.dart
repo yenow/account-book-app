@@ -17,16 +17,14 @@ class LoggingInterceptor extends Interceptor {
         "$header\n"
         "queryParameters:\n"
         "$queryParameters"
-        "Body: ${options.data}\n"
-        "-> END ${options.method.toUpperCase()}");
+        "Request Body: ${options.data}\n");
     super.onRequest(options, handler);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     log.i("<-- ${err.message} ${err.response?.requestOptions.baseUrl}${err.response?.requestOptions.path}\n"
-        "${err.response!.data ?? ''}\n"
-        "<-- End error");
+        "${err.response!.data ?? ''}\n");
     super.onError(err, handler);
   }
 
@@ -40,8 +38,7 @@ class LoggingInterceptor extends Interceptor {
     log.i("<-- ${response.statusCode} ${response.requestOptions.baseUrl}${response.requestOptions.path}\n"
         "Headers: "
         "$header\n"
-        "Response: ${response.data}\n"
-        "<-- END HTTP");
+        "Response Body: ${response.data}\n");
     super.onResponse(response, handler);
   }
 }

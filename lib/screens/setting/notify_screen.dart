@@ -50,14 +50,14 @@ class NotifyScreen extends StatelessWidget {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: Text(
-                  notify.title!,
-                  textAlign: TextAlign.left,
-                  style: Get.textTheme.titleSmall,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 5),
+                  child: Text(
+                    notify.title!,
+                    textAlign: TextAlign.left,
+                    style: Get.textTheme.titleSmall,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 7,
               ),
               SizedBox(
                 width: double.infinity,

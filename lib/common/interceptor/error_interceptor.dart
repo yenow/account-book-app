@@ -14,7 +14,6 @@ class ErrorInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // dlog.i('${response.requestOptions.uri} : ErrorInterceptor onResponse, statusCode = ${response.statusCode}');
 
     if (response.statusCode == 500 || response.statusCode == 400) {
       String errorMessage = response.data["message"] as String;

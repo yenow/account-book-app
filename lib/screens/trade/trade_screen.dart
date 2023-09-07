@@ -1,15 +1,10 @@
-import 'package:account_book/common/constant/colors.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/screen/trade_screen_controller.dart';
-import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
-import '../../common/log_config.dart';
 import '../../common/function/converter.dart';
 import 'component/trade_type_radio_button.dart';
 
@@ -60,7 +55,7 @@ class TradeScreen extends StatelessWidget {
       child: ElevatedButton(
         onPressed: TradesScreenController.to.saveTrade,
         style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
-        child: const Text('저장히기'),
+        child: const Text('저장'),
       ),
     );
   }

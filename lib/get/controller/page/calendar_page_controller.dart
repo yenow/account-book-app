@@ -1,10 +1,6 @@
-import 'dart:collection';
 
-import 'package:account_book/common/constant/format.dart';
-import 'package:account_book/common/log_config.dart';
 import 'package:account_book/data/model/trade.dart';
 import 'package:account_book/get/controller/trade_controller.dart';
-import 'package:account_book/screens/home/component/calendar_builder.dart';
 import 'package:account_book/common/function/converter.dart';
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +8,6 @@ import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../route.dart';
-import 'asset_page_controller.dart';
-import 'chart_page_controller.dart';
 
 class CalendarPageController extends GetxController {
   static CalendarPageController get to => Get.find();
@@ -43,10 +37,6 @@ class CalendarPageController extends GetxController {
   Future<void> goToTradeScreen(Trade trade) async {
     String tradeDate = await Get.toNamed(AppRoute.tradeScreen, arguments: trade, preventDuplicates: true);
     changeFocusDate(tradeDate);
-    // log.i('tradeListMap = $tradeListMap');
-    // await ChartPageController.to.initChartData();
-    // await AssetPageController.to.initAssetListSumAmount();
-    // TradeController.to.changeTradeListMap(tradeListMap);
   }
 
   bool selectedDayPredicate(DateTime dateTime) {
