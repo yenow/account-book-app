@@ -4,6 +4,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../common/constant/size.dart';
+import '../../get/controller/app_controller.dart';
+
 class NotifyScreen extends StatelessWidget {
   const NotifyScreen({super.key});
 
@@ -20,15 +23,49 @@ class NotifyScreen extends StatelessWidget {
   }
 
   Widget isLoading() {
-    return NotifyScreenController.to.isLoading.value ? Center(
-      child: CircularProgressIndicator(
-        color: Get.theme.colorScheme.primary,
-
-      ),
-    ) : body();
+    return NotifyScreenController.to.isLoading.value
+        ? Center(
+            child: CircularProgressIndicator(
+              color: Get.theme.colorScheme.primary,
+            ),
+          )
+        : body();
   }
 
   Widget body() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.home, size: Get.textTheme.headlineLarge?.fontSize),
+            Text(
+              '가계부',
+              style: Get.textTheme.headlineMedium,
+            ),
+          ],
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          width: double.infinity,
+          alignment: Alignment.center,
+          child: Text(
+            '앱 버전 : ${AppController.to.version}',
+            style: TextStyle(letterSpacing: CommonSize.letterSpacing),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Expanded(child: notifyList())
+      ],
+    );
+  }
+
+  Widget notifyList() {
     if (NotifyScreenController.to.notifyList.value.isEmpty) {
       return Container(
         alignment: Alignment.center,

@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:account_book/get/controller/page/is_loading_controller.dart';
 import 'package:account_book/get/controller/page/setting_page_controller.dart';
@@ -36,8 +35,6 @@ class SettingPage extends StatelessWidget {
           basicMenu(),
           headerRow('분류/자산'),
           assetMenu(),
-          // snackBarTest(),
-          // circleIndicatorTest(),
         ],
       ),
     );
@@ -52,7 +49,7 @@ class SettingPage extends StatelessWidget {
       ),
       child: ListView(shrinkWrap: true, children: [
         SettingRow(
-          text: '공지사항',
+          text: '버전 및 공지사항',
           icon: const Icon(FluentIcons.alert_20_regular),
           onTap: () async {
             Get.toNamed(AppRoute.notifyScreen);

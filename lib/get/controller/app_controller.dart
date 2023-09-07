@@ -1,16 +1,16 @@
-import 'package:account_book/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:restart_app/restart_app.dart';
 
-import '../../common/log_config.dart';
 import '../../common/theme/system_theme.dart';
 import '../../main.dart';
 
 class AppController extends GetxController {
   static AppController get to => Get.find();
   final isDarkMode = false.obs;
+  String version = '';
 
   void toDarkMode() async {
     SystemChrome.setSystemUIOverlayStyle(darkSystemUiOverlayStyle);
@@ -37,6 +37,9 @@ class AppController extends GetxController {
 
   Future<void> initData() async {
     String value = await storage.read(key: 'isDarkMode') ?? '';
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    version = packageInfo.version;
 
     if (value == 'Y') {
       isDarkMode(true);
