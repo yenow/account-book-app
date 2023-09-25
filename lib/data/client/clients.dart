@@ -5,16 +5,16 @@ import 'package:account_book/data/client/login_client.dart';
 import 'package:account_book/data/client/notify_client.dart';
 import 'package:account_book/data/client/trade_client.dart';
 import 'package:dio/dio.dart';
-import 'package:dio/dio.dart';
-import 'package:dio/dio.dart';
 
 import '../../common/interceptor/loading_interceptor.dart';
 import '../../common/interceptor/log_interceptor.dart';
 import 'account_client.dart';
 
+const baseUrl = 'http://168.126.221.239:58082';
+
 Dio dio = addInterceptor(Dio(
   BaseOptions(
-    baseUrl: 'http://192.168.0.6:8080',
+    baseUrl: baseUrl,
     contentType: Headers.jsonContentType,
     responseType: ResponseType.json,
     connectTimeout: const Duration(seconds: 10),
@@ -31,7 +31,6 @@ Dio addInterceptor(Dio dio) {
   return dio;
 }
 
-const baseUrl = 'http://192.168.0.6:8080';
 
 final accountClient = AccountClient(dio);
 final tradeClient = TradeClient(dio);
