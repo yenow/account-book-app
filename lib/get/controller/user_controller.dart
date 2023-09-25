@@ -33,12 +33,9 @@ class UserController extends GetxController {
         LoginResponse loginResponse = response.data!;
         user(loginResponse.user);
         setToken(loginResponse.accessToken!, loginResponse.refreshToken!);
-
-      }).onError<AppException>((AppException appException, stackTrace) {
-        Get.snackbar('에러', appException.errorMessage ?? '오류가 발생했습니다.');
+      }).onError((error, stackTrace) {
         clearToken();
         user(User());
-        Get.toNamed(AppRoute.homeScreen);
       });
     }
   }

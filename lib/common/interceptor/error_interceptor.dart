@@ -10,16 +10,19 @@ import '../exception/user_not_found_exception.dart';
 import '../log_config.dart';
 
 class ErrorInterceptor extends Interceptor {
-
-
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-
     if (response.statusCode == 500 || response.statusCode == 400) {
       String errorMessage = response.data["message"] as String;
       errorDialog(errorMessage);
 
-      var dioException = DioException(requestOptions: response.requestOptions, message: errorMessage, response: response, error: errorMessage, type: DioExceptionType.badResponse);
+      var dioException = DioException(
+        requestOptions: response.requestOptions,
+        message: errorMessage,
+        response: response,
+        error: errorMessage,
+        type: DioExceptionType.badResponse,
+      );
       dioException.printError();
       throw dioException;
     }
