@@ -60,7 +60,7 @@ class LoginScreenController extends GetxController {
       UserController.to.user(response.data!.user);
       UserController.to.setToken(response.data!.accessToken!, response.data!.refreshToken!);
 
-      Get.toNamed(AppRoute.homeScreen);
+      Get.toNamed(AppRoute.root);
     }).catchError((error) {
       // 실패
       throw error;
