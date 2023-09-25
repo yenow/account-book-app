@@ -23,7 +23,7 @@ class TradePieChart extends StatelessWidget {
               // show: false,
               ),
           sectionsSpace: 1,
-          centerSpaceRadius: 1,
+          centerSpaceRadius: 0,
           sections: showingSections(),
           startDegreeOffset: 10,
         ),
